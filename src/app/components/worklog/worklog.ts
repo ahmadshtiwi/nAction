@@ -90,7 +90,7 @@ export class Worklog implements OnInit {
     this.today = localISOTime;
 
     this.setCurrentTime();
-    if (this.route.snapshot.paramMap.get('id')) { debugger
+    if (this.route.snapshot.paramMap.get('id')) { 
       this.id = this.route.snapshot.paramMap.get('id');
       this.getData();
       this.getDefaultData(this.today);
@@ -111,7 +111,7 @@ export class Worklog implements OnInit {
     this.WorkLogService.getDefaultData(date).subscribe(res => {
 
       if (res) {
-        debugger
+        
         this.defaultData = res;
         this.workLog.fromTime = this.defaultData.fromTime; //"08:00"
         this.workLog.toTime = this.defaultData.toTime;  //"17:00"
@@ -196,7 +196,7 @@ export class Worklog implements OnInit {
   }
 
   convertTime = (time: string): string => {
-    debugger
+    
     return `${time.padStart(2, '0')}:00`;
   }
   goBack() {
@@ -220,7 +220,7 @@ export class Worklog implements OnInit {
 
     this.spinnerService.show();
     this.WorkLogService.getLogsByTaskID(this.id, this.pagination).subscribe(res => {
-      if (res) { debugger
+      if (res) { 
         this.tableData = res.workLogs.items;
         this.WorkLogTask = res;
         this.pagination.totalCount = res.workLogs.totalCount;
@@ -235,7 +235,7 @@ export class Worklog implements OnInit {
     })
   }
 
-  getEmployeeData() { debugger
+  getEmployeeData() { 
     let isAdmin = this.loginService.getUser().IsAdmin == 'True' ? true : false;
 
 
@@ -319,23 +319,60 @@ export class Worklog implements OnInit {
   }
 
 
+  // validateTime() { debugger
+  //   const currentDate = new Date();
+  //   this.today = currentDate.toISOString().split('T')[0];
+
+  //   if (this.workLog.date < this.today) {
+  //     this.timeError = this.workLog.toTime < this.workLog.fromTime;
+  //     // this.timeError = false
+  //     return
+  //   }
+
+  //   if (this.workLog.toTime && this.workLog.fromTime) {
+  //     let fromTime = this.workLog.fromTime.substring(0,5);
+  //     let toTime = this.workLog.toTime.substring(0,5);
+  //     this.setCurrentTime();
+  //     this.timeError = toTime < fromTime || toTime > this.currentTime.substring(0,5);
+  //   } else {
+  //     this.timeError = false;
+  //   }
+  
+  // }
+
   validateTime() {
-    if (this.workLog.date < this.today) {
-      this.timeError = false
-      return
-    }
-    if (this.workLog.toTime && this.workLog.fromTime) {
-      this.setCurrentTime();
-      this.timeError = this.workLog.toTime < this.workLog.fromTime || this.workLog.toTime > this.currentTime;
-    } else {
-      this.timeError = false;
-    }
-    const currentDate = new Date();
-    this.today = currentDate.toISOString().split('T')[0];
-    if (this.workLog.date < this.today) {
-      this.timeError = false;
-    }
+  const currentDate = new Date();
+  this.today = currentDate.toISOString().split('T')[0];
+
+  const fromTime = this.workLog.fromTime;
+  const toTime = this.workLog.toTime;
+
+  if (this.workLog.date < this.today) {
+    this.timeError = this.toMinutes(toTime) < this.toMinutes(fromTime);
+    return;
   }
+
+  if (fromTime && toTime) {
+    this.setCurrentTime(); // لازم ترجّع this.currentTime بصيغة hh:mm أو hh:mm:ss
+
+    this.timeError = 
+      this.toMinutes(toTime) < this.toMinutes(fromTime) ||
+      this.toMinutes(toTime) > this.toMinutes(this.currentTime);
+  } else {
+    this.timeError = false;
+  }
+}
+
+
+  toMinutes(time: string): number {
+  if (!time) return 0;
+
+  const parts = time.split(':').map(Number);
+  const hours = parts[0] || 0;
+  const minutes = parts[1] || 0;
+
+  return hours * 60 + minutes;
+}
 
   editItem(item: WorkLog): void {
     this.isView = false;
@@ -348,6 +385,7 @@ export class Worklog implements OnInit {
       }
     })
   }
+
 
   deleteItem(item: any): void {
     const modalRef = this.modalService.open(ModalComponent, {
@@ -374,7 +412,7 @@ export class Worklog implements OnInit {
     })
   }
 
-  nextPage(newPage: number) { debugger
+  nextPage(newPage: number) { 
     console.log('Page changed to:', newPage);
     this.pagination.pageNumber = newPage;
     if (this.route.snapshot.paramMap.get('id')) {

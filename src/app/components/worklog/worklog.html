@@ -1,9 +1,4 @@
 <div class="row">
-    <!-- <div class="col-1">
-        <a class="btn btn-primary-hover py-0" (click)="goBack()">
-            <i class="fa-solid fa-caret-left"></i>back</a>
-    </div> -->
-
     @if(id){
     <div class="col-12">
         <div class="card w-100 mb-3" style="max-width: 600px;">
@@ -92,13 +87,7 @@
     </div>
 
     <div class="col-12">
-        <!-- <app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
-            [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
-            [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'WorkLog'" [actionItems]="actionItems"
-            [removeActions]="false" [tableHeaders]="tableHeadersTask" [displayColumns]="workLogColumns"
-            [isViewOnly]="false" [viewUnsubmittedRequestButton]="false" (pageChangeEvent)="nextPage($event)"
-            [removeFilter]="true" (addButtonEvent)="openModal(content , false , true , false)">
-        </app-table> -->
+
      <app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
             [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
             [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'WorkLog'"
@@ -167,7 +156,7 @@
                     <input [disabled]="isView" [name]="'toTime'" [(ngModel)]="workLog.toTime" required
                         class="border text-start text-black p-2 w-100" type="time" [min]="workLog.fromTime"
                         [max]="workLog.date < today ? workLog.date  : currentTime"
-                        (ngModelChange)="workLog.date < today ? null : validateTime()">
+                        (ngModelChange)="validateTime()">
                     <div *ngIf="timeError" class="text-danger">
                         To time must be greater than From time and cannot exceed the current time.
                     </div>
