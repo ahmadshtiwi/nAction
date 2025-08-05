@@ -168,6 +168,8 @@ export class ResourceCard implements OnInit {
       return
     }
 
+    this.spinnerService.show()
+
     // this.spinnerService.show();
     if (this.User.inActiveDate == "") {
       this.User.inActiveDate = null
@@ -182,7 +184,7 @@ export class ResourceCard implements OnInit {
 
       this.userService.addUser(this.User).subscribe(res => {
         if (res) {
-          //   this.spinnerService.hide();
+            this.spinnerService.hide();
           this.offcanvasService.dismiss();
           this.getData()
         }
@@ -190,16 +192,18 @@ export class ResourceCard implements OnInit {
     } else if (this.isEdit) {
 
       this.userService.updateUser(this.User).subscribe(res => {
-        //  this.spinnerService.hide();
+         this.spinnerService.hide();
         this.offcanvasService.dismiss();
         if (res) {
           this.getData()
         }
       })
     } else {
-      //  this.spinnerService.hide();
+       this.spinnerService.hide();
       this.isView = true;
     }
+
+    setTimeout(()=>this.spinnerService.hide(),3000)
   }
   getData() {
 

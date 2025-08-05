@@ -28,6 +28,9 @@ export class ResourceAllocationComponent implements OnInit {
   isView: boolean = false;
   isAdd: boolean = false;
   isEdit: boolean;
+    messagePer:string|null;
+  isValidPer:boolean=true;
+
 
   projects: { id: number, name: string, imageURL: string }[] = [];
   transformedProjects: { name: string; value: number; }[] = [];
@@ -128,7 +131,7 @@ export class ResourceAllocationComponent implements OnInit {
 
 
   submitRequest(form: NgForm) {
-    if (form.invalid) {
+   if (form.invalid || !this.isValidPer) {
       return
     }
     this.spinnerService.show();
@@ -166,6 +169,16 @@ export class ResourceAllocationComponent implements OnInit {
         this.offcanvasService.open(this.content, { position: 'end', panelClass: 'custom-offcanvas' });
       }
     })
+  }
+
+    checkFromDate() {
+    if (this.resourceAllocation.fromDate > this.resourceAllocation.toDate) {
+      this.messagePer = "From Date must be less than or equal to the To Date.";
+      this.isValidPer = false;
+    } else {
+      this.messagePer = null;
+      this.isValidPer = true;
+    }
   }
 
   deleteItem(item: any): void {

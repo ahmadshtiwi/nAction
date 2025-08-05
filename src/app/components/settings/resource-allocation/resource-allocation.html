@@ -26,6 +26,7 @@
           <label class="text-white required-label my-2" for="fromCity">{{'Project'}}</label>
           <ng-select [disabled]="isView" name="projectId" [placeholder]="'CHOOSE'"
             class="bg-dark-primary border text-primary" [(ngModel)]="resourceAllocation.projectId" [items]="projects"
+            (ngModelChange)="checkFromDate()"
             [bindLabel]="'name'" [bindValue]="'id'" [multiple]="false">
           </ng-select>
         </div>
@@ -34,11 +35,16 @@
 
             <label class="text-white required-label my-2" for="fromDate">{{ "From Date" }}</label>
             <input [disabled]="isView" name="fromDate" [(ngModel)]="resourceAllocation.fromDate" required
+              [max]="resourceAllocation.toDate"
               class="border text-start text-black p-2 w-100" type="date" />
           </div>
           <label class="text-white required-label my-2" for="toDate">{{ "To Date" }}</label>
           <input [disabled]="isView" name="toDate" [(ngModel)]="resourceAllocation.toDate" required
+          [min]="resourceAllocation.fromDate" (ngModelChange)="checkFromDate()"
             class="border text-start text-black p-2 w-100" type="date" />
+
+            <div *ngIf="messagePer" class="text-danger">{{ messagePer }}</div>
+
         </div>
 
         <div class="col-12">

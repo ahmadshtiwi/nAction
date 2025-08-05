@@ -285,7 +285,7 @@ export class Task {
     this.task.batchId = id + '8';
   }
 
-  editItem(item: Tasks): void {
+  editItem(item: Tasks): void { debugger
     this.task = new Tasks();
     this.isView = false;
     this.isAdd = false;

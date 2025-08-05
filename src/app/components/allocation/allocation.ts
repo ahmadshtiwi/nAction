@@ -76,6 +76,7 @@ export class Allocation implements OnInit {
 
   }
   getData() {
+    if(!this.userId) return;
     const formattedDate = this.date.toISOString().split('T')[0]; // yyyy-MM-dd
     this.spinnerService.show();
     this.resourceService.getAllocatioTableByUser(this.userId, formattedDate)
