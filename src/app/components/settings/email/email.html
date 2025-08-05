@@ -1,0 +1,97 @@
+<form #emailSetting="ngForm" (ngSubmit)="submitEmailSettings()" class="mt-0">
+ 
+    <div class="card p-4 mb-4 w-100">
+        <h3>Email System Settings:</h3>
+
+        <hr>
+
+    <!-- Forget Password Email -->
+    <div class="row align-items-center mb-3">
+      <div class="col text-start">
+        <h5 class="fw-bold mb-0">Forget Password Email</h5>
+      </div>
+      <div class="col text-center">
+        <label class="switch mb-0">
+          <input type="checkbox" name="forgetpassword" [(ngModel)]="systemEmailSetting.forgetPassword" (ngModelChange)="submitEmailSettings()">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="col"></div> <!-- فارغ لحفظ التوازن -->
+    </div>
+
+    <!-- New Task Email -->
+    <div class="row align-items-center mb-3">
+      <div class="col text-start">
+        <h5 class="fw-bold mb-0">New Task Email</h5>
+      </div>
+      <div class="col text-center">
+        <label class="switch mb-0">
+          <input type="checkbox" name="newtask" [(ngModel)]="systemEmailSetting.newTask" (ngModelChange)="submitEmailSettings()">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="col"></div>
+    </div>
+
+    <!-- Completed Task Email -->
+    <div class="row align-items-center mb-3">
+      <div class="col text-start">
+        <h5 class="fw-bold mb-0">Completed Task Email</h5>
+      </div>
+      <div class="col text-center">
+        <label class="switch mb-0">
+          <input type="checkbox" name="completedtask" [(ngModel)]="systemEmailSetting.completeTask" (ngModelChange)="submitEmailSettings()">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="col"></div>
+    </div>
+
+  </div>
+    <div class="card p-4 mb-4 w-100">
+        <h3>Users Email Settings:</h3>
+
+        <hr>
+
+<table class="table table-bordered text-center">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Forget Password</th>
+      <th>New Task</th>
+      <th>Complete Task</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (data of usersEmailSetting; track $index) {
+     <tr>
+<td class="text-start">{{ data.name }}</td>
+        
+        <td>
+          <label class="switch mb-0">
+            <input type="checkbox" [(ngModel)]="data.forgetPassword" [name]="'forget'+$index" (ngModelChange)="updateUserEmailSetting(data)">
+            <span class="slider round"></span>
+          </label>
+        </td>
+
+          <td>
+          <label class="switch mb-0">
+            <input type="checkbox" [(ngModel)]="data.newTask"  [name]="'newTask'+$index"  (ngModelChange)="updateUserEmailSetting(data)">
+            <span class="slider round"></span>
+          </label>
+        </td>
+
+        <td>
+          <label class="switch mb-0"> 
+            <input type="checkbox" [(ngModel)]="data.completeTask"  [name]="'completed'+$index"  (ngModelChange)="updateUserEmailSetting(data)">
+            <span class="slider round"></span>
+          </label>
+        </td>
+
+     </tr>
+    }
+  </tbody>
+</table>
+    </div>
+</form>
+

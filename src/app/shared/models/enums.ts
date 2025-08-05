@@ -10,7 +10,9 @@ export enum StatusEnum {
 export enum AttachmentType {
     Assignment = 1,
     WorkLog = 2,
-    Project = 3
+    Project = 3,
+    Resource=4,
+    Day=5
 }
 
 export enum ResourcesType

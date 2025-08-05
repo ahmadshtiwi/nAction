@@ -1,0 +1,29 @@
+<table class="table table-bordered">
+ <thead>
+    <tr>
+      <th class="txt-size bg">Viewer \ User</th>
+      @for (user of allUsers; track user) {
+        <th class="header bg txt-size sticky-row">{{ user }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of tableMatrix; track row.viewer) {
+      <tr >
+        <td class="txt-size bg  sticky-col "><strong>{{ row.viewer }}</strong></td>
+        @for (user of allUsers; track user) {
+          <td class="box" (click)="submit(user,row.viewer, row.access[user])">
+          
+            @if(row.access[user])
+            {
+<i class="fa-solid fa-check"></i>
+            }
+              
+
+          
+            </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

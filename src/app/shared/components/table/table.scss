@@ -1,0 +1,45 @@
+
+.table-header {
+  background: var(--bg-primary);
+  color: var(--master-text-color);
+
+  &-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  &-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+
+// Hide Togole 
+[ngbDropdownToggle]::after {
+  display: none !important;
+}
+
+.link{
+  text-decoration: none;
+}
+.link:hover{
+  background-color: var(--btn-primary);
+  padding: 0px 2px;
+  color: var(--master-text-color);
+  border-radius: 8px;
+}
+
+
+.filter-text
+{
+  font-size: 16px;
+}
+.missed-task{
+background-color: rgba(255, 71, 71, 0.226) !important;
+}
+
+
+.current-task{
+  background-color: rgba(253, 163, 27, 0.336) ;
+
+}

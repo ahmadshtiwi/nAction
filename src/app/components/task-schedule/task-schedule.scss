@@ -1,0 +1,120 @@
+.table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.schedule-table {
+    border-collapse: collapse;
+    width: max-content; // مهم لتمكين scroll أفقي
+    min-width: 100%;
+
+    th,
+    td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .sticky-col,
+    th {
+        position: sticky;
+        left: 0;
+        background: var(--task-schedule-bg);
+        color: var(--master-text-color);
+        z-index: 1;
+
+    }
+
+    .bg-header {
+        background: var(--task-schedule-bg);
+    }
+
+    .sticky-col a {
+        color: #FFF;
+        text-decoration: underline;
+    }
+
+    .sticky-col a:hover {
+        cursor: pointer;
+    }
+
+
+    th.sticky-col {
+        z-index: 2; // حتى يظل فوق رؤوس الأعمدة عند التمرير
+        max-width: fit-content;
+        width: 30%;
+    }
+
+    .empty-cell {
+        background-color: #eeeeee;
+        color: #888;
+    }
+
+    .filled-cell {
+        background-color:var(--filled-cell);
+        color: var(--master-text-color);
+        font-weight: bold;
+    }
+
+    .dead-cell {
+        background-color: var(--dead-cell);
+        color: var(--master-text-color);
+        font-weight: bold;
+    }
+}
+
+
+.danger-cell {
+    background-color: var(--danger-cell);
+    color: var(--master-text-color);
+}
+
+.colors {
+
+    display: flex;
+    color: var(--master-text-color);
+    gap: 10px;
+    margin-bottom: 10px;
+
+
+    .static {
+        background: var(--task-schedule-bg);
+        padding: 5px;
+        border-radius: 50px;
+    }
+
+    .avaliable {
+        background-color: var(--avaliable-cell);
+        padding: 5px;
+        border-radius: 50px;
+
+    }
+
+    .missed {
+        background-color: var(--danger-cell);
+        padding: 5px;
+        border-radius: 50px;
+
+    }
+
+    .work {
+
+        padding: 5px;
+        border-radius: 50px;
+
+        background-color: var(--filled-cell);
+    }
+
+    .block {
+
+        padding: 5px;
+        border-radius: 50px;
+        background-color: var(--dead-cell);
+    }
+
+    span {
+        width: 10px;
+        height: 10px;
+    }
+}

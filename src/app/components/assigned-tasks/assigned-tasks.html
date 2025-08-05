@@ -1,0 +1,10 @@
+<app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber" [isLog]="true"
+[idName]="'id'" [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" 
+(filterChanged)="onFilterChange($event)" [columnFilters]="columnFilters" (activateFilteration)="filterData()"
+[removeAddButton]="false" [viewUnsubmittedRequestButton]="false"
+[tableHeaders]="tableHeaders" [displayColumns]="displayColumns" [viewLog]="false" [isViewOnly]="false"
+[removeActions]="true" [viewUnsubmittedRequestButton]="false"
+[unsubmittedComponentRouting]="'/pages/assignment-managment/unsubmitted-assignment-requests'"
+(pageChangeEvent)="nextPage($event)" [removeAddButton]="true"
+>
+</app-table>

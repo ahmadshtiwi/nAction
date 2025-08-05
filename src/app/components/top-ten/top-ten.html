@@ -1,0 +1,55 @@
+
+ <div class="top-three p-3 d-flex justify-content-evenly">
+
+
+    <!-- <div class="top">
+
+        <div class="second box">2</div> 
+        <div class="name">{{this.employees[1].fullName}}</div>
+
+    </div>
+    <div class="top">
+
+        <div class="box first">1</div> 
+        <div class="name">{{this.employees[0].fullName}}</div>
+
+    </div>
+    <div class="top">
+
+        <div class="box third">3</div> 
+        <div class="name">{{this.employees[2].fullName}}</div>
+
+    </div> -->
+
+    @if (employees[1]) {
+  <div class="top">
+    <div class="second box">2</div> 
+    <div class="name">{{employees[1].fullName}}</div>
+  </div>
+} @if (employees[0]) {
+  <div class="top">
+    <div class="box first">1</div> 
+    <div class="name">{{employees[0].fullName}}</div>
+  </div>
+} @if (employees[2]) {
+  <div class="top">
+    <div class="box third">3</div> 
+    <div class="name">{{employees[2].fullName}}</div>
+  </div>
+}
+
+ </div>
+ <div class="col-12">
+        <app-table   [tableData]="employees"
+ 
+            [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="true" [removePagination]="true" [removeFilterDate]="false"
+            [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'WorkLog'"
+            [removeActions]="true" [tableHeaders]="tableHeaders" [removeOrderBy]="false"
+            [displayColumns]="topTenColumns" [isViewOnly]="false" [viewUnsubmittedRequestButton]="false"
+            [removeFilter]="true"
+            (orderByChange)="handleOrderByChange($event)"
+            (fromDateChange)="handleFromDateChange($event)"
+            (toDateChange)="handleToDateChange($event)"
+           >
+        </app-table>
+    </div>

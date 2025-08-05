@@ -1,69 +1,128 @@
+
 .main-container {
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 9999;
-  background-color: #5584ae2d;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    background-color: #5584ae2d;
 
-  &::before {
-      background-color: #5584ae2d;
-      content: '';
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      backdrop-filter: blur(2px);
-  }
+    &::before {
+        background-color: #5584ae2d;
+        content: '';
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(2px);
+    }
 
-  &.show {
-      display: block;
-      opacity: 1;
-      pointer-events: all;
-      transition: all 0.3s ease-in-out;
+    &.show {
+        display: block;
+        opacity: 1;
+        pointer-events: all;
+        transition: all 0.3s ease-in-out;
 
-      .content {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        .content {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-          .loader {
-              transform: scale(1.4);
-              animation: scale 1s infinite;
+            .loader {
+                width: 175px;
+                height: 80px;
+                display: block;
+                margin: auto;
+                background-image: radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), radial-gradient(circle 50px at 50px 50px, #FFF 100%, transparent 0), radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), linear-gradient(#FFF 50px, transparent 0);
+                background-size: 50px 50px, 100px 76px, 50px 50px, 120px 40px;
+                background-position: 0px 30px, 37px 0px, 122px 30px, 25px 40px;
+                background-repeat: no-repeat;
+                position: relative;
+                box-sizing: border-box;
+            }
 
-              img {
-                  animation: scale-image 1.5s ease-in-out infinite;
-              }
-          }
-      }
-  }
+            .loader::before {
+                content: '';
+                left: 60px;
+                bottom: 18px;
+                position: absolute;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background-color: var(--loader-color);;
+                background-image: radial-gradient(circle 8px at 18px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, #FFF 100%, transparent 0);
+                background-repeat: no-repeat;
+                box-sizing: border-box;
+                animation: rotationBack 3s linear infinite;
+            }
+
+            .loader::after {
+                content: '';
+                left: 94px;
+                bottom: 15px;
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: var(--loader-color);
+                background-image: radial-gradient(circle 5px at 12px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, #FFF 100%, transparent 0);
+                background-repeat: no-repeat;
+                box-sizing: border-box;
+                animation: rotationBack 4s linear infinite reverse;
+            }
+
+            @keyframes rotationBack {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(-360deg);
+                }
+            }
+
+            .loader {
+                transform: scale(1.4);
+                animation: scale 1s infinite;
+
+                img {
+                    animation: scale-image 1.5s ease-in-out infinite;
+                }
+            }
+        }
+    }
 }
 
 @keyframes scale-image {
-  0%, 100% {
-      transform: scale(1); // Image at normal size
-  }
-  50% {
-      transform: scale(1.1); // Image scales up by 10%
-  }
+
+    0%,
+    100% {
+        transform: scale(1); // Image at normal size
+    }
+
+    50% {
+        transform: scale(1.1); // Image scales up by 10%
+    }
 }
 
 @keyframes flash {
-  0% {
-      transform: translateX(-100%);
-      opacity: 0;
-  }
-  50% {
-      opacity: .8;
-  }
-  100% {
-      transform: translateX(600%);
-      opacity: 0;
-  }
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .8;
+    }
+
+    100% {
+        transform: translateX(600%);
+        opacity: 0;
+    }
 }

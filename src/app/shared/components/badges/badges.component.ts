@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { StatusEnum } from '../../models/enums';
 
 @Component({
@@ -6,6 +6,20 @@ import { StatusEnum } from '../../models/enums';
   templateUrl: './badges.component.html',
   styleUrl: './badges.component.scss'
 })
-export class BadgesComponent {
-  @Input() statuses : StatusEnum;
+export class BadgesComponent  implements OnChanges {
+  @Input() statuses?: StatusEnum;
+  @Input() statusName?: string;
+
+  statusValue!: StatusEnum;
+
+  ngOnChanges(): void {
+    if (this.statuses) {
+      this.statusValue = this.statuses;
+    } else if (this.statusName) {
+      if(this.statusName=='Approved Completed')
+        this.statusName='ApprovedCompleted'
+      this.statusValue = StatusEnum[this.statusName];
+    }
+  }
+
 }

@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from '../../../assets/services/http.service';
-import { Observable } from 'rxjs';
-import {  TopResponse, TopTenReq } from './top-ten.modal';
-import { HttpParams } from '@angular/common/http';
+import { Observable } from "rxjs";
+import { HttpService } from "../../shared/services/http.service";
+import { TopResponse, TopTenReq } from "./top-ten.model";
+import { Injectable } from "@angular/core";
 
 @Injectable({
   providedIn: 'root'

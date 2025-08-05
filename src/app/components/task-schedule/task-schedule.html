@@ -1,0 +1,121 @@
+<!-- Filter Controls -->
+<div class="row g-3 mb-5">
+    <div class="col-md-6 col-lg-3">
+
+        <label class="text-black required-label me-2" for="fromCity">{{'Resource Name'}}</label>
+
+
+        <ng-select name="resourceNames" [placeholder]="'CHOOSE'" required
+            class="bg-dark-primary border text-primary flex-grow-1" [items]="users" [bindLabel]="'fullName'"
+            [bindValue]="'id'" [multiple]="false" [(ngModel)]="taskScheduleRequest.employeeId"
+            (ngModelChange)="getData()">
+        </ng-select>
+
+
+
+    </div>
+
+
+</div>
+
+
+@if(taskScheduleRequest.employeeId){
+@if(taskNames.length!=0){
+    <div class="colors">
+        <div><span class="static">Header Data</span></div>
+        <div><span class="avaliable">Avaliable Time</span></div>
+        <div><span class="missed">Missed Time</span></div>
+        <div><span class="work">Work Time</span></div>
+        <div><span class="block">Block Time</span></div>
+    </div>
+<div class="table-wrapper">
+    <table class="schedule-table" *ngIf="taskScheduleResponseMatrex">
+        <thead>
+
+            <tr>
+                <th class="sticky-col" style="text-align: end;">Day</th>
+                @for (date of dates; track $index){
+                @if($index==0 && isMissid ){
+                <th>Missed</th>
+                }
+                @else {
+                <th>{{ date | date: 'EEE' }}</th>
+
+                }
+                }
+            </tr>
+
+            <tr>
+                <th class="sticky-col" style="text-align: start;">Task</th>
+                @for (date of dates; track $index) {
+
+                <th>{{ date | date: 'dd/MM' }}</th>
+
+
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (task of taskNames; track $index; let rowIndex = $index) {
+            <tr>
+
+                @if(rowIndex<2) { <td class="sticky-col text-align-right" style="text-align: end;">{{ task }}</td>
+
+                    }
+                    @else
+                    {
+                    <td class="sticky-col" style="text-align:start;"><a (click)="goToTasks(task)">{{ task }}</a></td>
+
+                    }
+
+
+                    @for (date of dates; track $index; let colIndex = $index) {
+                    @if (( taskScheduleResponseMatrex[taskNames[0]][date] <
+                        taskScheduleResponseMatrex[taskNames[1]][date]) || (colIndex==0 &&isMissid)) { <td [ngClass]="{
+                  'empty-cell': taskScheduleResponseMatrex[task][date] === '--:--',
+                  'danger-cell': taskScheduleResponseMatrex[task][date] !== '--:--'
+                }">
+                        {{ taskScheduleResponseMatrex[task][date] }}
+                        </td>
+
+                        }
+
+                        @else if(
+                        rowIndex === 1 &&
+                        taskScheduleResponseMatrex[taskNames[0]][date] > taskScheduleResponseMatrex[taskNames[1]][date]
+                        ) {
+                        <td class="bg-success text-white font-weight-bold">
+                            {{ taskScheduleResponseMatrex[task][date] }}
+                        </td>
+
+                        }
+
+                        @else if(
+                        rowIndex === 0 || rowIndex===1 )
+                        {
+                        <td class="bg-header text-white font-weight-bold">
+                            {{ taskScheduleResponseMatrex[task][date] }}
+                        </td>
+                        }
+                        @else {
+
+                        <td [ngClass]="{
+                                        'empty-cell': taskScheduleResponseMatrex[task][date] === '--:--',
+                                        'dead-cell': taskScheduleResponseMatrex[task][date] === 'x',
+                                        'filled-cell': taskScheduleResponseMatrex[task][date] !== '--:--' &&  taskScheduleResponseMatrex[task][date] !== 'x' 
+                                    }">
+                            {{ taskScheduleResponseMatrex[task][date] }}
+                        </td>
+                        }
+                        }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+@else {
+<h3 style="text-align: center;">All Tasks Completed</h3>
+}
+
+}

@@ -1,0 +1,16 @@
+.bg-primary{
+   background-color: #0F3457 !important;
+}
+
+.card{
+    max-width: 100% !important;
+}
+
+input[type=range]::after{
+    content: 100;
+
+}
+
+.line{
+    border-right: 1px solid #2da0e270;
+}

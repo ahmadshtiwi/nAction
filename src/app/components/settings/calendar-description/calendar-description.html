@@ -1,0 +1,48 @@
+<app-table [tableData]="tableData" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
+    [removePagination]="true" [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'Description'"
+    [tableHeaders]="tableHeaders" [displayColumns]="displayColumns" [isViewOnly]="false" [actionItems]="actionItems"
+    [viewUnsubmittedRequestButton]="false"
+    [unsubmittedComponentRouting]="'/pages/assignment-managment/unsubmitted-assignment-requests'"
+    (addButtonEvent)="openModal(content , false , true , false)">
+</app-table>
+
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white">Tasks</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body bg-primary">
+        <div class="container-fluid">
+            <form #calendarForm="ngForm" AutoFormError (ngSubmit)="submitRequest(calendarForm)">
+
+                <app-attachment (batchId)="getBatchId($event)" [attachmentType]="attachmentType.Day"
+                    [label]="'Day image'" [allowMultiple]="false" [isImageOnly]="true"
+                    [hasAttachments]="CalendarDescription.hasAttachment"
+                    [referenceId]="CalendarDescription.id"></app-attachment>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Description'}}</label>
+                    <input [disabled]="isView" name="'title'" [(ngModel)]="CalendarDescription.description" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Header Text'}}</label>
+                    <input [disabled]="isView" name="'headerText'" [(ngModel)]="CalendarDescription.headerText"
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                @if(!isView){
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="btn-primary btn-primary-hover btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                }
+
+            </form>
+        </div>
+    </div>
+</ng-template>

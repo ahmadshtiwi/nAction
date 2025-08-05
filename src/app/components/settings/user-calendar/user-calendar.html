@@ -1,0 +1,68 @@
+<div class="col-md-5 p-1 col-12 my-4 d-flex align-items-center">
+    <label class="text-black required-label me-2" for="fromCity">{{'Resource Name'}}</label>
+    <ng-select name="maxDeliveryDate" [placeholder]="'CHOOSE'" required
+        class="bg-dark-primary border me-2 text-primary flex-grow-1" [(ngModel)]="userId" [items]="users"
+        (ngModelChange)="getUserWeek()" [bindLabel]="'fullName'" [bindValue]="'id'" [multiple]="false">
+    </ng-select>
+
+        <label class="text-black required-label me-2" for="fromCity">{{'Date'}}</label>
+
+    <input type="date" class="form-control w-25" name="date" [(ngModel)]="startDate"
+        (ngModelChange)="getUserWeek()">
+
+</div>
+
+@if(userId){
+
+
+
+<form #scheduleForm="ngForm" (ngSubmit)="submitForm()">
+    <div class="col-12 col-md-12 text-start bg-primary text-white  rounded-1 p-2 my-4">
+        <h5 class="m-0">{{ 'User Calendar' }}</h5>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+
+                @for (header of tableHeaders; track $index) {
+                <th>{{header}}</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (day of weekSchedule; track $index) {
+            <tr>
+                @if (day.date) {
+                <td>
+                    {{day.date | date : 'dd/MM/yyyy' }}
+                </td>
+                }
+                <td>{{ day.dayName }}</td>
+                <td>
+
+                    <ng-select [placeholder]="'Select Working Hours'" [(ngModel)]="day.requiredWorkingHours"
+                        [name]="'rid' + $index" [items]="availableHours" bindLabel="label" bindValue="value"
+                        [multiple]="false" [clearable]="true" required [searchable]="true">
+                    </ng-select>
+
+                </td>
+                <td>
+                    <ng-select [placeholder]="'CHOOSE'" [(ngModel)]="day.calendarDescriptionLookupId"
+                        [name]="'id' + $index" [items]="descriptions" bindLabel="description" bindValue="id"
+                        [multiple]="false" [clearable]="true" required [searchable]="true">
+                    </ng-select>
+
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-primary-hover  mt-3">Submit Changes</button>
+    </div>
+
+</form>
+
+}

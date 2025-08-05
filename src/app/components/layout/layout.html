@@ -1,0 +1,13 @@
+<div class="parent" [class.collapsed]="isCollapsed">
+  <div class="sidebar-wrapper">
+    <app-siderbar (collapse)="toggleCollapse()"></app-siderbar>
+  </div>
+
+  <div class="header">
+    <app-header></app-header>
+  </div>
+
+  <div class="main p-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>

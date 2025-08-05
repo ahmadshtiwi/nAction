@@ -1,0 +1,28 @@
+.setting-box {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    .setting-card {
+        min-width: 140px;
+        border: 4px var(--bg-third);
+        border-style: solid;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+}
+
+a {
+    text-decoration: none;
+    display: block;
+    color: var(--bg-third);
+            padding: 10px;
+
+}

@@ -1,0 +1,82 @@
+<div class="card">
+  <div class="header" style="position: relative;">
+
+    @if (cardData.inActiveDate) {
+    <span class="inActive">InActive</span>
+
+    }
+    @else
+    {
+    <span class="active">Active</span>
+    }
+
+    <div ngbDropdown class="position-static">
+      <button (click)="onDropdownToggleClick(cardData)" ngbDropdownToggle class="action-btn">
+        <i class="bi bi-three-dots"></i>
+      </button>
+
+      @if (activeCardId === cardData.id) {
+      <!-- Show the menu -->
+      <div class="action-menu">
+        <ul>
+          @for (actionItem of actionItems; track $index) {
+          @if (actionItem.viewAction) {
+          <button type="button" (click)="executeAction(cardData , actionItem.action)"
+            class="btn p-2 d-flex justify-content-start text-black align-items-center w-100">
+            <i [class]="actionItem.icon + ' mx-2'"></i>
+            <small>{{ actionItem.label }}</small>
+          </button>
+          }
+          }
+        </ul>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="image">
+    <img [src]="cardData.imageURL != null? cardData.imageURL: '/assets/images/user-circle.png'" width="100"
+      height="100">
+  </div>
+
+  <div class="name">
+    <h5>{{cardData.fullName}}</h5>
+  </div>
+  <div class="position">
+    <!-- <p>Full-Stack</p> -->
+  </div>
+
+  <div class="info">
+
+    <div class="filed">
+      <i class="bi bi-envelope-at-fill"></i><a [href]="'mailto:' + cardData.email" style="text-decoration: none;">{{
+        cardData.email }}</a>
+    </div>
+
+
+    <div class="filed">
+      <i class="fa-regular fa-id-badge"></i>
+      <p class="time">{{cardData.roles}}</p>
+    </div>
+    <div class="filed">
+
+      <p class="time ">
+
+        <i class="fa-solid fa-sack-dollar"></i>
+        @if(cardData.showHourlyCost){
+        <i class="fa-solid text-success fa-square-check"></i>
+       }
+        @else{
+        <i class="fa-solid text-danger fa-square-xmark"></i> }
+      </p>
+    </div>
+    <div class="filed">
+      <i class="fa-solid fa-calendar-plus"></i>
+      <p class="time">{{cardData.backLogDay}}</p>
+    </div>
+  </div>
+
+  <div class="join-date">
+    <span>System Joining Day : {{cardData.systemJoinDate}}</span>
+  </div>
+</div>

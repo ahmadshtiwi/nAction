@@ -1,0 +1,90 @@
+
+<div class="row">
+  
+
+  <!--Image -->
+  
+    <div class="col-6 bg-login-right d-flex justify-content-center align-items-center" >
+      <img src="/assets/images/login-image.png" alt="" srcset=""> 
+        <div class="bubbles">
+      
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      
+        
+        </div>
+    </div>
+    
+  <!--Login-->
+  <div class="col-6 bg-login-left">
+    <div class="login-container d-flex justify-content-center align-items-center flex-column">
+
+      <form class="login-form p-4 shadow rounded bg-white" AutoFormError  #UsersForm="ngForm"  (ngSubmit)="onSubmit(UsersForm)">
+        <div class="text-center mb-4">
+          <img src="/assets/images/logo2.png" alt="Logo" width="200">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+          type="email"
+            id="email"
+            class="form-control"  
+            name="email"                                  
+            [(ngModel)]="userLogin.email" 
+
+            placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group position-relative mb-4" [ngClass]="false ? 'text-end' : 'text-start'">
+                                        <label for="Password" class="form-label my-2 ">{{"Password"}}</label>
+                                        <input 
+                                        [type]="showPassword ? 'text' : 'password'" 
+                                        class="form-control  text-black" 
+                                        id="passcode" 
+                                        name="passcode"
+                                        required 
+                                        [(ngModel)]="userLogin.password" 
+                                        [ngClass]="false ? 'text-end' : 'text-start'"
+                                        [placeholder]='"PASSWORD"'
+                                        >
+                            <!-- eye -->
+                                    <i 
+                                        class="fa" 
+                                        [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" 
+                                        (click)="togglePassword()" 
+                                        style="position: absolute; right: 15px; top: 55px; cursor: pointer; color:rgba(0, 0, 0, 0.555);">
+                                    </i>
+                                    </div>
+
+        <button type="submit" class="btn btn-primary btn-primary-hover w-100">Login</button>
+
+                                
+        <div class="text-center mt-3">
+
+          
+          <a class="forgot-link" (click)="openForgetPassword()">Forget Password?</a>
+
+          
+       
+        </div>
+      </form>
+ <div class="row mt-2">
+                <footer class="powered-by">
+                    <a href="https://macquires.net/" target="_blank" rel="noopener noreferrer">
+                        <img src="/assets/images/macquiresLogo.png" width="40px" alt="" class="mx-2">
+                        <em class="text-black">Powered by <strong>Macquires 2025</strong></em>
+                    </a>
+                </footer>
+            </div>
+  </div>
+  
+  </div>
+  
+
+
+
+
+</div>
+

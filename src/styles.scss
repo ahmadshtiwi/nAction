@@ -1,128 +1,129 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importing Bootstrap SCSS file. */
-@use 'bootstrap/scss/bootstrap';
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; // Prevent body from scrolling separately
+body{
+    margin: 0 px;
+    padding: 0 px;
+      font-family: "Jost", sans-serif !important;
+      background-color: #eee !important;
+}
+.btn-primary{
+    background-color:  var(--btn-primary) !important;
+    
 }
 
-.btn-outline-warning {
-  color: #ff0000 !important;
-  border-color: #ff0000 !important;
-
-  &:hover {
-    color: #fff !important;
-  }
+.btn-outline-primary{
+    border: 1px solid  var(--btn-primary) !important; ;
 }
 
-.text-warning {
-  color: #000000 !important;
+.btn-outline-primary:hover{
+    border: 1px solid  var(--btn-primary) !important; 
+        background-color:  var(--btn-primary) !important;
+
 }
 
-.btn-warning {
-  color: #fff !important;
-  border-color: #ff0000 !important;
-  background-color: #ff0000 !important;
 
-  &:hover {
-    color: #fff !important;
-  }
-}
-
-.btn-outline-primary {
-  color: #0F3457 !important;
-  border-color: #0F3457 !important;
-
-  &:hover {
-    color: #fff !important;
-  }
+.btn-primary-hover:hover{
+   background-color:  var(--btn-primary-hover) !important;
+   color: var(--master-text-color) !important;
 }
 .bg-primary{
-  background-color: #0F3457 !important;
-  color: white !important;
+    background: var(--bg-primary);
+
+}
+.bg-secoundry{
+    background: var(--bg-secoundry);
+
+}
+.bg-header{
+    background: var(--bg-header);
+
 }
 
-.custom-offcanvas {
-  width: 35% !important;
-  max-width: 600px;
-  background-color: #0F3457 !important;
+/* يعمل على فايرفوكس */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-secoundry) #f1f1f1;
 }
 
-@media screen and (max-width: 576px) {
-  .custom-offcanvas {
-    width: 100% !important;
-  }
+/* يعمل على Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.border {
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color:  var(--bg-secoundry);
   border-radius: 10px;
+  border: 2px solid #f1f1f1;
 }
 
-.ng-select-container {
-  background-color: white !important;
-  border: none !important;
-  border-radius: 8px !important;
-  color: white;
-
-  input {
-    color: white !important;
-  }
+*::-webkit-scrollbar-thumb:hover {
+  background-color:  var(--bg-third);
 }
 
-.system-button {
-  background: linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(131,58,180,1) 100%);
-  border-radius: 10px;
-  border: none;
-  transition: background-color 0.3s; // Smooth transition for background color and hover effects
-
-  // Hover effect
-  &:hover {
-    background-color: #7CA2B4; // Darker shade on hover
-  }
-
-  // Disabled state
-  &:disabled {
-    background-color: #B0C4D1; // Lighter or different color indicating it's disabled
-    cursor: not-allowed; // Shows a 'not-allowed' cursor when hovered
-  }
+input ,textarea,ng-select{
+    border-radius: 5px;
 }
 
 
-.toast-success {
-  background-color: #00CFAD !important; // لون الخلفية
-  color: black !important; // لون النص
-  width: 500px !important;
+
+// switch button
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
 }
 
-.toast-error {
-  background-color: #dc3545 !important; // لون الخلفية للخطأ
-  color: white !important;
-  width: 500px !important;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.toast-warning {
-  background-color: #ffc107 !important; // لون الخلفية للتحذير
-  color: black !important;
-  width: 500px !important;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
 }
 
-.toast-info {
-  background-color: #17a2b8 !important; // لون الخلفية للمعلومات
-  color: white !important;
-   width: 500px !important;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
 }
 
-.ng-select {
-  .ng-select-container {
-    .ng-value-container {
-      .ng-input>input {
-        color: #000000 !important;
-      }
-    }
-  }
+input:checked + .slider {
+  background-color: #2196F3;
 }
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+

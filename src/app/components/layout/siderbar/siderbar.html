@@ -1,0 +1,32 @@
+  <!-- Sidebar -->
+  <div class="sidebar phone-sidebar z-1 shadow-lg" [ngClass]="isSidebarOpen ? '' : 'collapsed'">
+
+    <!-- Sidebar Header -->
+    <div class="sidebar-header p-2 text-center">
+        @if(isSidebarOpen){ 
+      <img src="/assets/images/logo4.png" alt="Logo" width="100">
+        }
+    <a (click)="collapseSidebar()"><i class="bi bi-list fs-2  "></i></a>
+
+    </div>
+    <hr>
+
+    <!-- Sidebar Links -->
+    <ul class="list-unstyled p-0 text-center">
+      @for (item of menuItems; track $index) {
+       
+        <li [hidden]="!item.viewSection">
+       
+            <a [routerLink]="item.route" (click)="clearSession()" routerLinkActive="active"
+                class="d-flex align-items-center justify-content-center p-2 w-100 mb-2 p-1 text-decoration-none">
+                <i style="font-size: 20px;" [ngClass]="item.icon + ' me-2'" [title]="item.name"></i>
+               
+                @if(isSidebarOpen){
+
+                  <small>{{ item.name }}</small>
+                }
+           </a>
+        </li>
+      }
+    </ul>
+  </div>

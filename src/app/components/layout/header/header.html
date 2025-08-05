@@ -1,0 +1,101 @@
+<header class="d-flex justify-content-between align-items-center p-3">
+  <!-- Left: Logo -->
+  <div>
+    <i class="fa-solid fa-circle-left back-btn " (click)="back()"></i>
+    <!-- <img src="/assets/images/logo.png" width="100" alt="Logo"> -->
+  </div>
+
+  <!-- Right: Profile with dropdown -->
+  <div class="dropdown">
+
+    <button class="btn d-flex align-items-center gap-2" type="button" id="dropdownUser" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      <img src="/assets/images/user-circle.png" class="profile-img">
+      <span>{{username}}</span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+      <!-- <li><a class="dropdown-item" routerLink="profile">Profile</a></li> -->
+      <li><a class="dropdown-item" (click)="open(passwordTemplate)">Change Password</a></li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</header>
+
+
+
+<ng-template #passwordTemplate let-offcanvas>
+  <div class="offcanvas-header bg-header">
+    <h4 class="offcanvas-title text-white">Change Password</h4>
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body bg-primary">
+    <div class="container-fluid">
+      <form #passwordForm="ngForm" AutoFormError (ngSubmit)="submitRequest(passwordForm)">
+        <div class="col-12 position-relative">
+          <label class="text-white required-label my-2" for="fromCity">{{'Current Password'}}</label>
+          <input name="'title'"
+          [type]="showCurrentPassword ? 'text' : 'password'" 
+          [(ngModel)]="password.currentPassword" required
+          
+            class="border text-start text-black p-2 w-100" type="password">
+
+             <i 
+                                        class="fa" 
+                                        [ngClass]="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'" 
+                                        (click)="toggleCurrentPassword()" 
+                                        style="position: absolute; right: 15px; top: 55px; cursor: pointer; color:rgba(0, 0, 0, 0.555);">
+                                    </i>
+        </div>
+        <div class="col-12 position-relative">
+          <label class="text-white required-label my-2" for="fromCity">{{'Password'}}</label>
+          <input name="'title'"
+            [type]="showNewPassword ? 'text' : 'password'" 
+         [(ngModel)]="password.newPassword" required
+            class="border text-start text-black p-2 w-100" type="password">
+             <i 
+                                        class="fa" 
+                                        [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'" 
+                                        (click)="toggleNewPassword()" 
+                                        style="position: absolute; right: 15px; top: 55px; cursor: pointer; color:rgba(0, 0, 0, 0.555);">
+                                    </i>
+          @if (showConfirmationError) {
+          <div class="col-12 mt-1 text-danger">
+            <small>Passwords do not match!</small>
+          </div>
+          }
+        </div>
+        <div class="col-12 position-relative">
+          <label class="text-white required-label my-2" for="fromCity">{{'Confirm Password'}}</label>
+          <input name="'title'"
+            [type]="showReNewPassword ? 'text' : 'password'" 
+          [(ngModel)]="password.confirmPassword" required (ngModelChange)="checkConfirmPassword()"
+            class="border text-start text-black p-2 w-100" type="password">
+
+             <i 
+                                        class="fa" 
+                                        [ngClass]="showReNewPassword ? 'fa-eye-slash' : 'fa-eye'" 
+                                        (click)="toggleReNewPassword()" 
+                                        style="position: absolute; right: 15px; top: 55px; cursor: pointer; color:rgba(0, 0, 0, 0.555);">
+                                    </i>
+
+          @if (showConfirmationError) {
+          <div class="col-12 mt-1 text-danger">
+            <small>Passwords do not match!</small>
+          </div>
+          }
+        </div>
+
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <button class="system-button btn p-2 w-100 text-white btn-primary btn-primary-hover" type="submit">
+            <span class="form-label">{{'Submit Request'}}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,189 @@
+
+<div class="header">
+   
+    <div class="search">
+    <span>Search:</span>
+    <input type="search" placeholder="Type to search..." [(ngModel)]="filterName">
+</div>
+    <button type="button" class="btn btn-primary btn-primary-hover" (click)="openModal(content , false , true , false)"><i class="fa-solid fa-user-plus"></i></button>
+</div>
+
+
+<div class="grid">
+  @for (data of filteredCardData; track $index) {
+    <app-user-card
+      [cardData]="data"
+      [actionItems]="actionItems"
+      [activeCardId]="activeCardId"
+      (toggleMenu)="handleMenuToggle($event)"
+    ></app-user-card>
+  }
+</div>
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white">Resource Info</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body bg-primary">
+        <div class="container-fluid">
+            <form #UsersForm="ngForm" AutoFormError (ngSubmit)="submitRequest(UsersForm)">
+          <div class="col-12">
+            
+           
+                <app-attachment 
+                (batchId)="getBatchId($event)" 
+                [attachmentType]="attachmentType.Resource" 
+                        [label]="'Resource image'" 
+                        [allowMultiple]="false" 
+                        [isImageOnly]="true"
+                        [hasAttachments]="User.hasAttachment"
+                        [referenceId]="User.id">
+                    </app-attachment>
+           
+            </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fullName">{{'Full Name'}}</label>
+                    <input [name]="'firstName'" [(ngModel)]="User.fullName" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="email">{{'Email'}}</label>
+                    <input name="email" [(ngModel)]="User.email" required autocomplete="username"
+                        class="border text-start text-black p-2 w-100" type="email">
+                </div>
+                @if(!isEdit){
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Password'}}</label>
+                    <input [name]="'password'" [(ngModel)]="User.password" required
+                        autocomplete="new-password" class="border text-start text-black p-2 w-100 input-password"
+                        type="text">
+                </div>
+                }
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Roles'}}</label>
+                    <ng-select name="roles" [placeholder]="'CHOOSE'" class="bg-dark-primary border text-primary"
+                        [bindLabel]="'name'" [bindValue]="'name'" [items]="roles" [(ngModel)]="User.roles"
+                        [multiple]="false">
+                    </ng-select>
+                </div>
+
+                <br>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [value]="true" name="showHourlyCost" id="flexCheckDefault" [(ngModel)]="User.showHourlyCost">
+                    <label class="form-check-label text-white" for="flexCheckDefault" >
+                   Show Cost
+                    </label>
+                </div>
+
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Viewers'}}</label>
+                    <ng-select [disabled]="isView" name="maxDeliveryDate" [placeholder]="'CHOOSE'"
+                        class="bg-dark-primary border text-black" [(ngModel)]="selectedIds" [items]="users"
+                        [bindLabel]="'fullName'" [bindValue]="'id'" [multiple]="true"
+                        (ngModelChange)="onViewersChange($event)">
+                    </ng-select>
+                </div>
+
+  
+ 
+                
+                
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="systemJoinDate">{{'System Joining Day'}}</label>
+                    <input name="systemJoinDate" [(ngModel)]="User.systemJoinDate"  required
+                    class="border text-start text-black p-2 w-100" type="date">
+                </div>
+                
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="backLogDays">{{'BackLog Days'}}</label>
+                    <input name="backLogDays" [(ngModel)]="User.backLogDay" 
+                        class="border text-start text-black p-2 w-100" type="text" appRestrictNonNumeric>
+                </div>
+
+                @if(isEdit){
+
+                    <div class="col-12">
+                        <label class="text-white required-label my-2" for="inActiveDate">{{'Inactive Date'}}</label>
+                        @if (User.inActiveDate) {
+                            <input name="inActiveDate" [(ngModel)]="User.inActiveDate" (ngModelChange)="User.inActiveDate = null;User.maxDateSearch=null"
+                            autocomplete="off" class="border text-start text-black p-2 w-100"
+                            type="text">
+                        }@else {
+                            <input name="inActiveDate" [(ngModel)]="User.inActiveDate" 
+                            autocomplete="off" class="border text-start text-black p-2 w-100"
+                            type="date">
+                        }
+                        
+                    </div>
+                    
+                }
+                
+                @if(isEdit && User.inActiveDate){
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="maxDateSearch">{{'Max Search Date'}}</label>
+
+                    <input name="maxDateSearch" [(ngModel)]="User.maxDateSearch" 
+                autocomplete="off" class="border text-start text-black p-2 w-100"
+                type="date">
+                </div>
+            }
+
+               
+
+
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="system-button btn p-2 w-100 text-white btn-primary btn-primary-hover "  type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #passwordTemplate let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white">Change Password</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body bg-primary">
+        <div class="container-fluid">
+            <form #passwordForm="ngForm" AutoFormError (ngSubmit)="resetPassword(passwordForm)">
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Password'}}</label>
+                    <input appNoLeadingSpace id="password" name="password" [(ngModel)]="password.newPassword" required
+                        class="form-control border text-start text-black p-2 w-100" type="password">
+                    @if (showConfirmationError) {
+                    <div class="col-12 mt-1 text-danger">
+                        <small>Passwords do not match!</small>
+                    </div>
+                    }
+                </div>
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Confirm Password'}}</label>
+                    <input name="'title'" [(ngModel)]="password.confirmPassword" required
+                        (ngModelChange)="checkConfirmPassword()" class="border text-start text-black p-2 w-100"
+                        type="password">
+                    @if (showConfirmationError) {
+                    <div class="col-12 mt-1 text-danger">
+                        <small>Passwords do not match!</small>
+                    </div>
+                    }
+                </div>
+
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="system-button btn btn-primary btn-primary-hover p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

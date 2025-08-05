@@ -1,0 +1,63 @@
+.sidebar {
+  background: var(--bg-primary);
+  color: var(--master-text-color);
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: none;
+width: 100%; // Default expanded width
+  transition: width 0.5s ease; // Smooth width transition
+
+  &.collapsed{
+  width: 50px !important;
+}
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    .logo {
+      max-width: 70%;
+      height: auto;
+    }
+  }
+
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      a {
+        color: var(--master-text-color); // White text for links
+        font-size: 1.1rem;
+        text-align: left; // Align text to the left for better structure
+        display: flex; // Flex layout for icon and text alignment
+        align-items: center; // Center items vertically
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: var(--bg-third); // rgba(0, 0, 0, 0.05);
+        }
+
+        &.active {
+          background-color: var(--bg-third) !important; // Primary background for active link
+        }
+
+        i {
+          font-size: 1.5rem; // Adjust icon size
+          width: 30px; // Fixed width to ensure alignment
+          text-align: center; // Center the icon horizontally
+          margin-right: 1rem; // Add spacing between icon and text
+        }
+
+        small {
+          flex-grow: 1; // Ensure the text takes the remaining space
+        }
+      }
+    }
+  }
+}
+

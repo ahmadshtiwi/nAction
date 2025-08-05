@@ -5,14 +5,14 @@ import { routes } from './app.routes';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { requestInterceptor } from './shared/interceptors/request.interceptor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpLoaderFactory } from '../main';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { HubConnectionBuilder } from '@microsoft/signalr';  // SignalR Client
-import { SignalRService } from '../app/shared/services/signalR.service';  // Import your SignalR service
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 
 export const appConfig: ApplicationConfig = {
-  providers: [
+ providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes) ,
     provideHttpClient(withInterceptors([requestInterceptor])),
@@ -29,8 +29,11 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-top-right', // Position of the toast
       preventDuplicates: true, // Prevent duplicate toasts
     })),
-    SignalRService, // Assuming you have created a SignalR service to manage connections
   ]
+
+  
 };
 
-
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

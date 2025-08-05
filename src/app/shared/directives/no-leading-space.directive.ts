@@ -7,10 +7,13 @@ export class NoLeadingSpaceDirective {
 
   constructor(private el: ElementRef) { }
 
-  @HostListener('input', ['$event']) onInputChange(event: KeyboardEvent) {
-    const input = this.el.nativeElement.value;
+  @HostListener('input', ['$event']) 
+  onInputChange(event:Event) {
+    const input = (event.target as HTMLInputElement).value;
     if (input.startsWith(' ')) {
-      this.el.nativeElement.value = input.trimStart();
+     (event.target as HTMLInputElement).value = input.trimStart();
     }
   }
 }
+
+

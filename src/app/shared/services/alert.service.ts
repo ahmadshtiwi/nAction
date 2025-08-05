@@ -1,11 +1,12 @@
-import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { TranslateService } from "@ngx-translate/core";
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertService {
+
   constructor(private toasterService: ToastrService, private translate: TranslateService) {}
 
   error(message: string = 'ERROR.DEFAULT_MESSAGE', title: string = 'ERROR.DEFAULT_TITLE'): void {

@@ -1,0 +1,92 @@
+<!-- Section Header -->
+<div class="mb-4">
+  <h3 class="fw-bold text-dark">Dashboard</h3>
+  <!-- <p class="text-muted">Visual insights into your team’s performance and allocation.</p> -->
+</div>
+
+<!-- Filter Controls -->
+<div class="row g-3 mb-5">
+  <div class="col-md-6 col-lg-3">
+
+  <label class="text-black required-label me-2" for="fromCity">{{'Resource Name'}}</label>
+  <ng-select name="maxDeliveryDate" [placeholder]="'CHOOSE'" required class="bg-dark-primary border text-primary flex-grow-1"
+      [(ngModel)]="ProductivityPagination.employeeId" [items]="users"
+      (ngModelChange)="getDashboardData()" [bindLabel]="'fullName'" [bindValue]="'id'"
+      [multiple]="false">
+  </ng-select>
+  </div>
+  
+  <div class="col-md-6 col-lg-3">
+    <label for="fromDate" class="form-label fw-semibold">From Date</label>
+    <input
+      type="date"
+      class="form-control form-control-sm"
+      name="fromDate"
+      [(ngModel)]="ProductivityPagination.fromDate"
+      (ngModelChange)="getDashboardData(); ">
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <label for="toDate" class="form-label fw-semibold">To Date</label>
+    <input
+      type="date"
+      class="form-control form-control-sm"
+      name="toDate"
+      [(ngModel)]="ProductivityPagination.toDate"
+      (ngModelChange)="getDashboardData()">
+  </div>
+</div>
+
+<!-- Chart Cards Section -->
+<div class="row g-4 p-2">
+
+   <!-- Tasks by Project Pie Chart -->
+   <div class="col-md-12 col-lg-6 W-25">
+    <div class="p-4 bg-white rounded-4 shadow-sm W-25 border">
+      <app-pie-chart class="W-25"
+        [labels]="resourceAllocationLabels"
+        [data]="resourceAllocationData"
+        [title]="'Tasks by Project'">
+      </app-pie-chart>
+    </div>
+  </div>
+  <!-- Productivity Chart -->
+  <div class="col-md-6 col-lg-6">
+    <div class="p-4 bg-white rounded-4 shadow-sm  border">
+      <app-line-chart 
+        [label]="'Productivity'"
+        [labels]="productivityLabels"
+        [data]="productivityData"
+        [borderColor]="'rgba(75, 192, 192, 1)'"
+        [backgroundColor]="'rgba(75, 192, 192, 0.2)'">
+      </app-line-chart>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-6">
+    <div class="p-4 bg-white rounded-4 shadow-sm  border">
+      <app-statistic-chart
+        [chartType]="'bar'"
+        [title]="'KPI'"
+        [labels]="topTenLabels"
+        [data]="topTenData">
+      </app-statistic-chart>
+
+    </div>
+  </div>
+  <!-- Efficiency Chart -->
+  <div class="col-md-6 col-lg-6">
+    <div class="p-4 bg-white rounded-4 shadow-sm  border">
+      <app-line-chart 
+        [label]="'Efficiency'"
+        [labels]="efficiencyLabels"
+        [data]="efficiencyData"
+        [borderColor]="'rgba(255, 99, 132, 1)'"
+        [backgroundColor]="'rgba(255, 99, 132, 0.2)'">
+      </app-line-chart>
+    </div>
+  </div>
+
+
+ 
+</div>

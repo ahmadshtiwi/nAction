@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../../assets/services/http.service';
 import { PaginationFilter } from '../../../shared/models/pagination.model';
-import { Result } from '../../../shared/models/result';
 import { RoleItems, Role } from './roles.model';
+import { HttpService } from '../../../shared/services/http.service';
 
 @Injectable({
   providedIn: 'root'

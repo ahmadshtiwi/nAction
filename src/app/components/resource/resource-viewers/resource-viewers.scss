@@ -1,0 +1,32 @@
+.header
+{
+    writing-mode: sideways-lr;
+}
+.txt-size
+{
+    font-size: 12px;
+}
+
+.box:hover{
+    background-color: var(--bg-secoundry);
+    color: var(--master-text-color);
+}
+.sticky-col
+{
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+.sticky-row
+{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.bg
+{
+    background: var(--bg-secoundry);
+    color: var(--master-text-color);
+}
+

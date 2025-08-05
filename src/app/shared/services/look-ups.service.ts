@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../assets/services/http.service';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,8 @@ export class LookUpsService {
       return this.httpService.get<{id : number , name : string , imageURL : string}[]>(`${this.controller}/projects-for-cost`);
     }
 
-    getAllProjects = () => {
-      return this.httpService.get<{id : number , name : string , imageURL : string}[]>(`${this.controller}/projects`);
+    getAllProjects = (userId?:string) => {
+      return this.httpService.get<{id : number , name : string , imageURL : string}[]>(`${this.controller}/projects`,{body:{userId}});
     }
   
 }

@@ -1,0 +1,91 @@
+<h2>
+    {{projectName}}
+</h2>
+
+    <app-table [tableData]="tableData.items" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+    [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle"
+    [removeAddButton]="false" [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'Resource'"
+    [tableHeaders]="tableHeaders" [displayColumns]="displayColumns" [viewLog]="false" [isViewOnly]="false"
+    [actionItems]="actionItems" [viewUnsubmittedRequestButton]="false"
+    [unsubmittedComponentRouting]="'/pages/assignment-managment/unsubmitted-assignment-requests'"
+    (pageChangeEvent)="nextPage($event)" (addButtonEvent)="openModal(content , false , true , false)"
+    (openFilterModalEvent)="openFilter(filter , true , false , false)">
+</app-table>
+
+
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white">Projects</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body  bg-primary">
+        <div class="container-fluid">
+            <form #ProjectResourceForm="ngForm" AutoFormError (ngSubmit)="submitRequest(ProjectResourceForm)">
+
+                <!-- <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Project'}}</label>
+                    <ng-select [disabled]="isView" name="assignedToId" [placeholder]="'CHOOSE'" required
+                        class="bg-dark-primary border text-primary" [(ngModel)]="Project.projectId" [items]="projects"
+                        [bindLabel]="'name'" [bindValue]="'id'" [multiple]="false">
+                    </ng-select>
+                </div> -->
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Resource Name'}}</label>
+                    <ng-select [disabled]="isView" name="ResourceName" [placeholder]="'CHOOSE'" required
+                        class="bg-dark-primary border text-primary" [(ngModel)]="ProjectResourse.resourceId" [items]="users"
+                        [bindLabel]="'fullName'" [bindValue]="'id'" [multiple]="false">
+                    </ng-select>
+                </div>
+
+                <div class="col-12 d-flex align-items-center mt-3">
+                    <input [disabled]="isView"  [name]="'canCreateTasks'" [(ngModel)]="ProjectResourse.canCreateTasks"
+                        class="form-check-input my-2" type="checkbox">
+                    <label class="text-white required-label ms-2" for="canCreateTasks">{{ 'Can Create Tasks' }}</label>
+                </div>
+
+                <div class="col-12 d-flex align-items-center">
+                    <input [disabled]="isView"  [name]="'canSeeCost'" [(ngModel)]="ProjectResourse.canSeeCost"
+                        class="form-check-input my-2" type="checkbox">
+                    <label class="text-white required-label ms-2" for="canSeeCost">{{ 'Can See Cost' }}</label>
+                </div>
+
+                @if(!isView){
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="btn-primary btn-primary-hover btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #filter let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white">Tasks</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body bg-primary">
+        <div class="container-fluid">
+            <form #tasksForm="ngForm" AutoFormError (ngSubmit)="offcanvas.dismiss('Cross click')">
+
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Search value'}}</label>
+                    <input [disabled]="isView" name="'title'" [(ngModel)]="pagination.SearchValue" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="btn-primary btn-primary-hover btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'filter'}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

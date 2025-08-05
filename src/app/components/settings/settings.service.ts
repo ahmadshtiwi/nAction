@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from '../../../assets/services/http.service';
-import { Observable } from 'rxjs';
-import { BackLogDays, UserCalendar, Parameters, parametersRequestArray } from './user-calendar/user-calendar.model';
-import { CalendarDesc } from './calendar-description/calendar-description.model';
+import { Injectable } from "@angular/core";
+import { HttpService } from "../../shared/services/http.service";
+import { Observable } from "rxjs";
+import { CalendarDescription } from "./calendar-description/calendar-description.model";
+import { parametersRequestArray,Parameters } from "./paramter/parameter.model";
+import { UserCalendar } from "./calendar/calendar.model";
+
 
 @Injectable({
   providedIn: 'root'
@@ -32,25 +34,25 @@ export class SettingsService {
 
 
   // Calendar Description 
-  getCalendarLookups = () : Observable<CalendarDesc[]> =>{
-    return this.apiHlpr.get<CalendarDesc[]>(`CalendarDesLookup/get-all-days`);
+  getCalendarLookups = () : Observable<CalendarDescription[]> =>{
+    return this.apiHlpr.get<CalendarDescription[]>(`CalendarDesLookup/get-all-days`);
   }
 
-  getCalendarLookup = (id:number) : Observable<CalendarDesc> =>{
-    return this.apiHlpr.get<CalendarDesc>(`CalendarDesLookup/get-day/${id}`);
+  getCalendarLookup = (id:number) : Observable<CalendarDescription> =>{
+    return this.apiHlpr.get<CalendarDescription>(`CalendarDesLookup/get-day/${id}`);
   }
 
-  addCalendarLookup= ( data : CalendarDesc) :Observable<CalendarDesc>=>{
-    return this.apiHlpr.post<CalendarDesc>(`CalendarDesLookup/add-calendar-desc` , data);
+  addCalendarLookup= ( data : CalendarDescription) :Observable<CalendarDescription>=>{
+    return this.apiHlpr.post<CalendarDescription>(`CalendarDesLookup/add-calendar-desc` , data);
 
   }
-  deleteCalendarLookup= (id:number) :Observable<CalendarDesc>=>{
-    return this.apiHlpr.delete<CalendarDesc>(`CalendarDesLookup/delete-day/${id}`);
+  deleteCalendarLookup= (id:number) :Observable<CalendarDescription>=>{
+    return this.apiHlpr.delete<CalendarDescription>(`CalendarDesLookup/delete-day/${id}`);
 
   }
 
-  updateCalendar= (calendarDesc :CalendarDesc) :Observable<CalendarDesc>=>{
-    return this.apiHlpr.put<CalendarDesc>(`CalendarDesLookup/update-day/${calendarDesc.id}`, {description:calendarDesc.description});
+  updateCalendar= (CalendarDescription :CalendarDescription) :Observable<CalendarDescription>=>{
+    return this.apiHlpr.put<CalendarDescription>(`CalendarDesLookup/update-day/${CalendarDescription.id}`, CalendarDescription);
 
   }
 

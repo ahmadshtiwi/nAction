@@ -1,0 +1,208 @@
+<div class="row">
+    <!-- <div class="col-1">
+        <a class="btn btn-primary-hover py-0" (click)="goBack()">
+            <i class="fa-solid fa-caret-left"></i>back</a>
+    </div> -->
+
+    @if(id){
+    <div class="col-12">
+        <div class="card w-100 mb-3" style="max-width: 600px;">
+            <div class="card-header bg-primary text-white">
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="card-title mb-0">Task: {{ WorkLogTask.id }} - {{ WorkLogTask.title }}</h5>
+                        <small class="text-white">Project: {{ WorkLogTask.projectName }}</small>
+                    </div>
+                    <div class="col-6">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-body row p-2 w-100 m-0">
+
+                <!-- Description Section -->
+                <div class="col-3 line">
+                    <p class="card-text col-10"><strong>Description: </strong>{{WorkLogTask.description}}</p>
+                </div>
+                <!-- Date Section -->
+                <div class="line col-3">
+                    
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Creation Date: </strong></p>
+                        <p class="col-5"> {{ WorkLogTask.createdOn |date:'dd/MM/yyyy' }} </p>
+                        
+                    </div>
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Start Date: </strong> </p>
+                        <p class="col-5">{{ WorkLogTask.startDate | date:'dd/MM/yyyy' }} </p>
+                    </div>
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Deadline: </strong> </p>
+                        <p class="col-5">{{ WorkLogTask.maxDeliveryDate | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Actual Completion: </strong></p>
+                        <p class="col-5"> {{ WorkLogTask.actualCompletion | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                </div>
+
+                <!-- Time Section -->
+                <div class="line col-3">
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Estimated Duration: </strong></p>
+                        <p class="col-5">{{ WorkLogTask.estimatedDuration }} hrs</p>
+                    </div>
+
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Actual Duration: </strong></p>
+                        <p class="col-5">{{ WorkLogTask.actualDurationFormatted }}</p>
+                    </div>
+
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Completion %age: </strong></p>
+                        <p class="col-5">{{ WorkLogTask.percentageCompleted }}%</p>
+                    </div>
+
+                    <div class="row">
+                        <p class="card-text col-7"><strong>Task Status: </strong></p>
+                        <p class="col-5"><app-badges [statusName]="WorkLogTask.assignmentStatusName"></app-badges></p>
+                                                 
+
+                    </div>
+                </div>
+
+                <!-- Attachment Section  -->
+                <div class="col-2">
+                    <div><strong>Attachments</strong></div>
+
+                    <div class="col-12 ">
+                        @if (WorkLogTask.hasAttachments) {
+                        <app-attachment [viewInputField]="false" (batchId)="getBatchId($event)" [label]="' '"
+                            [attachmentType]="attachmentType.Assignment" [hasAttachments]="WorkLogTask.hasAttachments"
+                            [referenceId]="WorkLogTask.id"></app-attachment>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-primary text-white d-flex justify-content-between">
+                <small>Requested by: {{ WorkLogTask.createdByName }}</small>
+                <small>Assigned to: {{ WorkLogTask.assignedToName }}</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <!-- <app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+            [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
+            [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'WorkLog'" [actionItems]="actionItems"
+            [removeActions]="false" [tableHeaders]="tableHeadersTask" [displayColumns]="workLogColumns"
+            [isViewOnly]="false" [viewUnsubmittedRequestButton]="false" (pageChangeEvent)="nextPage($event)"
+            [removeFilter]="true" (addButtonEvent)="openModal(content , false , true , false)">
+        </app-table> -->
+     <app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+            [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
+            [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'WorkLog'"
+            [actionItems]="actionItems" [removeActions]="false" [tableHeaders]="tableHeadersTask"
+            [displayColumns]="workLogColumns" [isViewOnly]="false" [viewUnsubmittedRequestButton]="false"
+            (pageChangeEvent)="nextPage($event)" [removeFilter]="true"
+            (addButtonEvent)="openModal(content , false , true , false)">
+        </app-table>
+    </div>
+    }@else {
+    <div class="col-12">
+        <app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+            [isLog]="true" [btnName]="'View'" [idName]="'assignmentId'" [pageSize]="pagination.pageSize"
+            [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="true" [viewUnsubmittedRequestButton]="false"
+            [actionItems]="actionItems" [removeActions]="true" [tableHeaders]="tableHeadersDaily"
+            [displayColumns]="hourlyBreakDownColumns" [isViewOnly]="false" [viewUnsubmittedRequestButton]="false"
+            (pageChangeEvent)="nextPage($event)" (filterChanged)="onFilterChange($event)"
+            [columnFilters]="columnFilters" (activateFilteration)="filterData()">
+        </app-table>
+    </div>
+    }
+</div>
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header bg-header">
+        <h4 class="offcanvas-title text-white ">Create Log</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body bg-primary">
+        <div class="container-fluid">
+
+
+            <form #workLogsForm="ngForm" AutoFormError (ngSubmit)="submitRequest(workLogsForm)">
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="description">{{'Description'}}</label>
+                    <textarea [disabled]="isView" [name]="'description'" [(ngModel)]="workLog.description" required
+                        class="border text-start text-black p-2 w-100" type="text" rows="3">
+
+                        </textarea>
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="Date">{{'Date'}}</label>
+                    <input [disabled]="isView" [name]="'Date'" [(ngModel)]="workLog.date" required
+                        (ngModelChange)="getDefaultData(workLog.date)" class="border text-start text-black p-2 w-100"
+                        type="date" [max]="today"
+                        (change)="validateDate() ; workLog.fromTime = null ; workLog.toTime = null">
+
+                    @if (viewValidation) {
+                    <span class="text-danger">
+                        Can't Enter Future Date
+                    </span>
+                    }
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromTime">{{'From time'}}</label>
+                    <input [disabled]="isView" [name]="'fromTime'" [(ngModel)]="workLog.fromTime" required
+                        class="border text-start text-black p-2 w-100" type="time" (ngModelChange)="validateTime()">
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="toTime">{{'To time'}}</label>
+                    <input [disabled]="isView" [name]="'toTime'" [(ngModel)]="workLog.toTime" required
+                        class="border text-start text-black p-2 w-100" type="time" [min]="workLog.fromTime"
+                        [max]="workLog.date < today ? workLog.date  : currentTime"
+                        (ngModelChange)="workLog.date < today ? null : validateTime()">
+                    <div *ngIf="timeError" class="text-danger">
+                        To time must be greater than From time and cannot exceed the current time.
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="percentageCompleted">{{'Completion %'}}</label>
+
+                    <div class="d-flex">
+
+                        <input [disabled]="isView" [name]="'percentageCompleted2'"
+                            [(ngModel)]="workLog.percentageCompleted" required [value]="workLog.percentageCompleted"
+                            class="border text-start text-black  " style="width:85%;" type="range">
+
+                        <input [disabled]="isView" [name]="'percentageCompleted'"
+                            [(ngModel)]="workLog.percentageCompleted" [appMaxValue]="100" required appRestrictNonNumeric
+                            class="border text-start text-black p-1 " style="width:15%;" type="text">
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <app-attachment (batchId)="getBatchId($event)" [attachmentType]="attachmentType.WorkLog"
+                        [hasAttachments]="workLog.hasAttachments" [referenceId]="referenceId"></app-attachment>
+                </div>
+
+                @if(!isView){
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="btn-primary btn-primary-hover btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</ng-template>

@@ -1,24 +1,24 @@
 <div class="badge p-0">
 
-    @switch (statuses) {
+    @switch (statusValue) {
         @case (1) {
-            <span class="red-badge p-1 px-2">
+            <span class="red-badge  px-2">
                 {{"New"}}
             </span>
         }
         @case (2) {
-            <span class="blue-badge p-1 px-2">
+            <span class="blue-badge  px-2">
                 {{"Active "}}
             </span>
         }
         @case (3) {
-            <span class="green-badge p-1 px-2">
-                {{"Completed "}}
+            <span class="green-badge  px-2">
+                {{"Done"}}
             </span>
         }
         @case (4) {
-            <span class="green-badge p-1 px-2">
-                {{"Approved Completed"}}
+            <span class="green-badge  px-2">
+                {{"Approved"}}
             </span>
         }
         @case (5) {

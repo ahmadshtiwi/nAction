@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-between w-75">
+  <h3>{{userName}}</h3>
+</div>
+<app-table [tableData]="resourceAllocationBody" 
+     [tableHeaderTitle]="tableHeaderTitle" [removePagination]="true"
+    [removeAddButton]="false" [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'Allocation'"
+    [tableHeaders]="tableHeaders" [displayColumns]="displayColumns" [viewLog]="false" [isViewOnly]="false"
+    [actionItems]="actionItems" [viewUnsubmittedRequestButton]="false" 
+    [unsubmittedComponentRouting]="'/pages/assignment-managment/unsubmitted-assignment-requests'"
+    (addButtonEvent)="openModal(content , false , true , false)"
+   >
+</app-table> 
+
+
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header bg-header">
+    <h4 class="offcanvas-title text-white ">Add Allocation</h4>
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body bg-primary">
+    <div class="container-fluid">
+      <form #hourlycost="ngForm" AutoFormError (ngSubmit)="submitRequest(hourlycost)">
+
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="fromCity">{{'Project'}}</label>
+          <ng-select [disabled]="isView" name="projectId" [placeholder]="'CHOOSE'"
+            class="bg-dark-primary border text-primary" [(ngModel)]="resourceAllocation.projectId" [items]="projects"
+            [bindLabel]="'name'" [bindValue]="'id'" [multiple]="false">
+          </ng-select>
+        </div>
+        <div class="col-12">
+          <div class="col-12">
+
+            <label class="text-white required-label my-2" for="fromDate">{{ "From Date" }}</label>
+            <input [disabled]="isView" name="fromDate" [(ngModel)]="resourceAllocation.fromDate" required
+              class="border text-start text-black p-2 w-100" type="date" />
+          </div>
+          <label class="text-white required-label my-2" for="toDate">{{ "To Date" }}</label>
+          <input [disabled]="isView" name="toDate" [(ngModel)]="resourceAllocation.toDate" required
+            class="border text-start text-black p-2 w-100" type="date" />
+        </div>
+
+        <div class="col-12">
+          
+          <label class="text-white required-label my-2" for="Time">{{'Time'}}</label>
+          <ng-select 
+          [placeholder]="'Select Number of Hours'" 
+          [(ngModel)]="resourceAllocation.timeOfAllocation" 
+          [name]="'time'"
+          [items]="availableHours"
+          bindLabel="label" 
+          bindValue="value" 
+          [multiple]="false" 
+          [clearable]="true"
+          required 
+          [searchable]="true">
+          </ng-select>
+        </div>
+
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="note">{{ "Note" }}</label>
+          <textarea [disabled]="isView" name="note" [(ngModel)]="resourceAllocation.note"
+            class="border text-start text-black p-2 w-100" rows="4"></textarea>
+        </div>
+
+        @if (!isView) {
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <button class="btn-primary btn-primary-hover btn p-2 w-100 text-white" type="submit">
+            <span class="form-label">{{ "Submit Request" }}</span>
+          </button>
+        </div>
+        }
+      </form>
+    </div>
+  </div>
+</ng-template> 

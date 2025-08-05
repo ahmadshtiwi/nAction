@@ -1,0 +1,135 @@
+<!-- اختيار المستخدم -->
+<div class="col-md-6 col-lg-3 my-3">
+  <div class="d-flex align-items-center gap-2">
+    <label class="text-black required-label me-2 mb-0">{{ 'Resource Name' }}</label>
+    <ng-select
+      [placeholder]="'CHOOSE'"
+      required
+      class="bg-dark-primary border text-primary flex-grow-1"
+      [(ngModel)]="userId"
+      [items]="users"
+      (ngModelChange)="getData()"
+      [bindLabel]="'fullName'"
+      [bindValue]="'id'"
+      [multiple]="false">
+    </ng-select>
+  </div>
+</div>
+
+<!-- جدول البيانات -->
+@if (allocationTable?.length > 0) {
+<div class="table-responsive">
+  <table class="table table-bordered table-hover table-sm align-middle text-center">
+    <thead>
+      <tr>
+        @for (col of allocationTable.columns; track $index) {
+        @if ($index === 0) {
+        <th scope="col">{{ col }}</th>
+        } @else {
+        <th scope="col">
+          {{ col | date: 'dd/MM EEE' }}
+        </th>
+        }
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of allocationTable.rows; track $index) {
+      <tr>
+        <th scope="row" class="text-start">{{ row.projectName }}</th>
+        @for (value of row.values; track $index) {
+        <td>{{ value || '-' }}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+} @else {
+<div>
+  <h4>No Allocation Now</h4>
+</div>
+}
+
+<!-- أزرار التنقل -->
+<div class="d-flex justify-content-between my-3">
+  <button class="btn btn-primary btn-primary-hover px-4" (click)="change(-14)" [disabled]="!canGoPrev">
+    ‹ Previous
+  </button>
+
+  <button class="btn btn-outline-secondary px-4" (click)="goToToday()">
+    Today
+  </button>
+
+  <button class="btn btn-primary btn-primary-hover px-4" (click)="change(14)" [disabled]="!canGoNext">
+    Next ›
+  </button>
+</div>
+
+<hr class="my-5">
+<div class="col-md-6 col-lg-3 my-3">
+  <div class="d-flex align-items-center gap-2">
+    <label class="required-label mb-0 me-2" for="fromCity">{{ 'Project' }}</label>
+    <ng-select
+      name="projectId"
+      [placeholder]="'CHOOSE'"
+      class="bg-dark-primary border text-primary flex-grow-1"
+      [(ngModel)]="projectId"
+      (ngModelChange)="getProjectData()"
+      [items]="projects"
+      [bindLabel]="'name'"
+      [bindValue]="'id'"
+      [multiple]="false">
+    </ng-select>
+  </div>
+</div>
+
+<!-- جدول البيانات -->
+@if (allocationTableProject?.length > 0) {
+<div class="table-responsive">
+  <table class="table table-bordered table-hover table-sm align-middle text-center">
+    <thead>
+      <tr>
+        @for (col of allocationTableProject.columns; track $index) {
+        @if ($index === 0) {
+        <th scope="col">{{ col }}</th>
+        } @else {
+        <th scope="col">
+          {{ col | date: 'dd/MM EEE' }}
+        </th>
+        }
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of allocationTableProject.rows; track $index) {
+      <tr>
+        <th scope="row" class="text-start">{{ row.projectName }}</th>
+        @for (value of row.values; track $index) {
+        <td>{{ value || '-' }}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+} @else {
+<div>
+  <h4>No Allocation Now</h4>
+</div>
+}
+
+<!-- أزرار التنقل -->
+<div class="d-flex justify-content-between my-3">
+  <button class="btn btn-primary btn-primary-hover px-4" (click)="changeProject(-14)" [disabled]="!canGoPrevProject">
+    ‹ Previous
+  </button>
+
+  <button class="btn btn-outline-secondary px-4" (click)="goToTodayProject()">
+    Today
+  </button>
+
+  <button class="btn btn-primary btn-primary-hover px-4" (click)="changeProject(14)" [disabled]="!canGoNextProject">
+    Next ›
+  </button>
+</div>

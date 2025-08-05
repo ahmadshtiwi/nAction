@@ -1,15 +1,15 @@
-import { Component, Inject } from '@angular/core';
+import { Component, DOCUMENT, Inject } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: 'app-loader',
+  selector: 'app-app-loader',
+  standalone: true,
+  imports: [],
   templateUrl: './app-loader.component.html',
-  styleUrls: ['./app-loader.component.scss']
+  styleUrl: './app-loader.component.scss'
 })
 export class AppLoaderComponent {
-
-  isLoaderOnScreen: boolean = false;
+isLoaderOnScreen: boolean = false;
 
   constructor(private spinnnerService: SpinnerService,
     @Inject(DOCUMENT) private document: Document
@@ -17,14 +17,13 @@ export class AppLoaderComponent {
 
   ngOnInit(): void {
     this.bindSpinnerChanges();
+
   }
 
   bindSpinnerChanges() {
     this.spinnnerService.subject.subscribe((value) => {
-      console.log('value', value);
       value ? this.document.body.style.overflow = 'hidden' : this.document.body.style.overflow = 'auto' ;
       this.isLoaderOnScreen = value;
     });
   }
-  
 }

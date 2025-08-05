@@ -1,0 +1,33 @@
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    display: flex;
+    gap: 10px;
+    justify-content: start;
+    margin: 10px;
+
+    button {
+        background-color: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 5px;
+        transition: 0.3s;
+        font-size: 12x;
+
+        border-radius: 8px;
+
+        &.active {
+            padding: 0px 10px;
+            background-color: var(--btn-primary);
+            color: var(--master-text-color);
+
+        }
+
+        &:not(.active):hover {
+            background-color: #ddd;
+        }
+
+
+    }
+}

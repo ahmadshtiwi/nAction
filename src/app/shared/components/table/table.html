@@ -1,0 +1,321 @@
+<!-- Table Header -->
+@if (!removeTableHeader) {
+<div class="table-header row p-1 m-0 align-items-center rounded-1	 {{tableWidth}}"
+    [ngClass]="{'border-radius-none': removeBorderRadius}">
+    <!-- Title and Subtitle -->
+    <div class="col-6 col-md-7 text-start">
+        <h5 class="table-header-title m-0">{{ tableHeaderTitle }}</h5>
+        <small class="table-header-subtitle">{{ tableHeaderSubtitle }}</small>
+    </div>
+
+
+    <div class="col-8 col-md-5 d-flex justify-content-end align-items-center gap-2">
+        @if (!removeAddButton) {
+        <button type="button" class="btn btn-primary btn-primary-hover" (click)="openModal()">
+            <i class="fa-solid fa-square-plus"></i> {{ tableHeaderButton }}
+        </button>
+        }
+
+        @if(!removeFilterDate){
+        <label for="">From</label>
+        <input type="date" class="form-control flex-grow-1 w-25" name="fromDate" [(ngModel)]="fromDate"
+            (ngModelChange)="onFromDateChange($event)" />
+
+        <label for="">To</label>
+        <input type="date" class="form-control flex-grow-1 w-25" name="toDate" [(ngModel)]="toDate"
+            (ngModelChange)="onToDateChange($event)" />
+
+        }
+        @if(!removeOrderBy){
+        <label for="">OrderBy</label>
+        <ng-select name="orderById" [placeholder]="'CHOOSE'" class="bg-dark-primary border text-primary w-25"
+            [(ngModel)]="selectedOrderBy" [items]="tableHeaders" (ngModelChange)="onSelectChange($event)"
+            [bindLabel]="'name'" [bindValue]="'id'" [multiple]="false">
+        </ng-select>
+        }
+
+
+
+
+    </div>
+</div>
+}
+
+<div class="table-responsive">
+    <table class="table {{tableWidth}}">
+
+        <thead>
+
+            <tr>
+                @for (header of tableHeaders; track header) {
+
+                @if(header == 'Actions' || header=='Log' || header== 'KPI'){
+                <th class="table-header-cell fw-bold text-center fw-normal">
+                    {{ header }}
+                </th>
+                }@else {
+
+                <th class="table-header-cell ">
+                    @if(columnFilters[header]?.isText || columnFilters[header]?.isDropdown ||
+                    columnFilters[header]?.isDates || columnFilters[header]?.isTime ){
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div ngbDropdown #dropdownRef="ngbDropdown">
+                            <button class="btn btn-sm fw-bold p-0 border-0 bg-transparent filter-text "
+                                ngbDropdownToggle>
+                                {{ header }}
+                                <i class="bi bi-filter"></i>
+                            </button>
+
+                            <!-- Filter Dropdown Content -->
+                            <div ngbDropdownMenu class="p-2 shadow-sm custom-column-filter">
+                                <!-- Text Filter -->
+                                @if (columnFilters[header]?.isText) {
+                                <input type="text" class="form-control mb-2" placeholder="Search"
+                                    (input)="applyColumnFilter(header, $event)" />
+                                }
+                                @if (columnFilters[header]?.isText2) {
+                                <label class="text-black required-label me-2" for="fromDate"><small>To</small></label>
+                                <input type="text" class="form-control mb-2" placeholder="Search"
+                                    (input)="applyColumnFilter(header + '_2', $event)" />
+                                }
+
+                                <!-- Dropdown Filter -->
+                                @if (columnFilters[header]?.isDropdown) {
+                                <ng-select [items]="columnFilters[header]?.options" bindLabel="name" bindValue="value"
+                                    (change)="applyColumnFilter(header, $event)"
+                                    [multiple]="columnFilters[header]?.multiple" placeholder="Select options"
+                                    class="form-control mb-2">
+                                </ng-select>
+
+
+                                }
+
+                                <!-- Date Range Filter -->
+                                @if (columnFilters[header]?.isDates) {
+                                <label class="text-black required-label me-2" for="fromDate"><small>From
+                                        Date</small></label>
+                                <input type="date" class="form-control flex-grow-1 w-100" name="fromDate"
+                                    (change)="applyColumnFilter(header + '_from', $event)">
+
+                                <label class="text-black required-label me-2" for="toDate"><small>To
+                                        Date</small></label>
+                                <input type="date" class="form-control flex-grow-1 w-100" name="toDate"
+                                    (change)="applyColumnFilter(header + '_to', $event)">
+                                }
+
+                                <!-- Date Range Filter -->
+                                @if (columnFilters[header]?.isTime) {
+                                <label class="text-black required-label me-2" for="fromDate"><small>Hours
+                                        From</small></label>
+                                <input name="'hours'" appRestrictNonNumeric
+                                    (change)="applyColumnFilter(header + '_hoursFrom', $event)" placeholder="HH"
+                                    required class="border text-start text-black p-2 w-100" type="text"
+                                    [appMaxValue]="9999">
+                                <label class="text-black required-label me-2" for="fromDate"><small>Hours
+                                        To</small></label>
+                                <input name="'hours'" appRestrictNonNumeric
+                                    (change)="applyColumnFilter(header + '_hoursTo', $event)" placeholder="HH" required
+                                    class="border text-start text-black p-2 w-100" type="text" [appMaxValue]="9999">
+                                }
+
+                                <button type="button" class="btn btn-primary w-100 mt-2"
+                                    (click)="activateFilter(); dropdownRef.close()">
+                                    {{ 'apply' }}
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                    }@else {
+                <th class="table-header-cell fw-bold text-center fw-normal">
+                    {{ header }}
+                </th>
+                }
+                </th>
+
+                }
+                }
+
+            </tr>
+
+
+        </thead>
+
+        <tbody>
+            @for (data of tableData; track $index) {
+            <tr [class.missed-task]="isPastDate(data['maxDeliveryDate']) && (data['assignmentStatusId'] === 2 || data['assignmentStatusId'] === 1)"
+                [class.current-task]="isTodayDeadDate(data['maxDeliveryDate']) && (data['assignmentStatusId'] === 2 || data['assignmentStatusId'] === 1)">
+                @for (column of displayColumns(data); track $index) {
+
+                <td class="table-cell "
+                    [class.missed-task]="isPastDate(data['maxDeliveryDate']) && (data['assignmentStatusId'] === 2 || data['assignmentStatusId'] === 1)"
+                    [class.current-task]="isTodayDeadDate(data['maxDeliveryDate']) && (data['assignmentStatusId'] === 2 || data['assignmentStatusId'] === 1)"
+                    [ngStyle]="{width : column.width ? column.width : 'fit-content'}">
+                    @if (column.isDate) {
+                    <div>
+                        {{ column.text | date: 'dd/MM/yy EEE' }}
+                    </div>
+                    }
+                    @if (column.isImage) {
+                    <div>
+                        @if (column.text) {
+                        <img [src]="column.text" width="20px" height="20px" alt="">
+                        }
+                    </div>
+                    }
+                    @if (column.isDateTime) {
+                    <div>
+                        {{ column.text | date: 'HH:mm' }}
+                    </div>
+                    }
+                    @if (column.isFulllDate) {
+                    <div>
+
+                        {{ column.text? (column.text | date: ' dd/MM/yy EEE') : '' }}
+                    </div>
+                    }
+                    @if (column.isTime) {
+                    <div>
+
+                        @if(column.link)
+                        {
+                        <a class="link" [routerLink]="column.link">{{ column.text | timeFormat}}</a>
+                        }
+                        @else {
+                        {{ column.text | timeFormat}}
+                        }
+                    </div>
+                    }
+                    @if (column.isText) {
+                    <div [ngClass]="column.isCenter ? 'text-center' : '' ">
+                        @if(column.link)
+                        {
+                        <a class="link" [routerLink]="column.link">{{ column.text }}</a>
+                        }
+                        @else{
+
+                        {{ column.text }}
+                        }
+                    </div>
+                    }
+
+                    @if (column.isMony) {
+                    <div class='d-flex justify-content-start'>
+                        <div class="text-end " style="min-width: 80px;">
+
+                            @if(column["isEfficiency"]==true && column.text=="0 %"){
+                                <strong> {{100 +'%'}}</strong>
+
+                            }
+                            @else {
+
+                                {{ column.text }}
+                            }
+                        </div>
+                    </div>
+                    }
+                    @if (column.isStatus) {
+                    <div class="my-1">
+                        <app-badges [statuses]="column.number"></app-badges>
+                    </div>
+                    }
+                    @if (column.isBoolean) {
+                    @if (column.boolean) {
+                    <i class="fa-solid text-success fa-square-check"></i>
+                    }@else {
+                    <i class="fa-solid text-danger fa-square-xmark"></i>
+                    }
+                    }
+                </td>
+                }
+                @if (!removeActions) {
+                <td class="table-cell text-center p-2">
+                    @if (isViewOnly) {
+                    <button type="button" class="btn action-button" (click)="displayColumns(data)">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                    } @else {
+                    <div ngbDropdown class="position-static">
+                        <div class="nav-item btn  position-relative btn-primary-hover   border-primary"
+                            ngbDropdownToggle (click)="onDropdownToggleClick(data)">
+                            <i class="fa-solid fa-ellipsis-vertical btn_hover"></i>
+                        </div>
+                        <div ngbDropdownMenu class="bg-green400 border-success position-absolute"
+                            aria-labelledby="dropdownBasic1">
+                            @if(!actionItems.length) {
+                            <div class="col-12 p-2 text-center">
+                                <div class="spinner-border fs-3 text-success" role="status">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            }
+                            @for (actionItem of actionItems; track $index) {
+                            @if (actionItem.viewAction) { <!-- Check the viewFlag for each action -->
+                            <button type="button" ngbDropdownItem (click)="executeAction(data , actionItem.action)"
+                                class="btn p-2 d-flex justify-content-start text-black align-items-center">
+                                @if (actionItem.imageUrl) {
+                                <img [src]="actionItem.imageUrl" alt="{{ actionItem.label }}" class="mx-2"
+                                    style="width: 20px; height: 20px;">
+                                } @else {
+                                <i [class]="actionItem.icon + ' mx-2'"></i>
+                                }
+                                <small>{{ actionItem.label }}</small>
+                            </button>
+                            }
+                            }
+                        </div>
+                    </div>
+                    }
+                </td>
+                }
+                @if (viewLog) {
+                <td class="table-cell text-center p-2">
+                    <button type="button" class="btn btn-primary-hover action-button border-primary"
+                        (click)="navigateToLog(data['id'], data)">
+                        <img src="/assets/images/log.png" width="23" alt="">
+                        <!-- <i class="fa-solid fa-right-to-bracket"></i> -->
+                    </button>
+                </td>
+                }
+
+
+
+                @if (isLog) {
+                <td class="table-cell text-center p-2">
+
+                    @if(data['canEnter']){
+                    <button type="button" class="btn btn-primary-hover border-primary action-button" title="View Log"
+                        (click)="navigateToLog(data[idName] , data)">
+                        <img src="/assets/images/log.png" width="23" alt="">
+                    </button>
+
+                    }@else {
+                    <button disabled type="button" class="btn disable-button action-button" title="View Log"
+                        (click)="navigateToLog(data[idName] , data)">
+                        <img src="/assets/images/log.png" width="23" alt="">
+                    </button>
+                    }
+                </td>
+                }
+
+            </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+
+@if (!removePagination) {
+
+<div class="table-pagination">
+    <ngb-pagination [maxSize]="4" [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page"
+        (pageChange)="nextPage()">
+        <ng-template ngbPaginationPrevious><span aria-hidden="true">&laquo;</span></ng-template>
+        <ng-template ngbPaginationNext><span aria-hidden="true">&raquo;</span></ng-template>
+    </ngb-pagination>
+
+</div>
+
+}

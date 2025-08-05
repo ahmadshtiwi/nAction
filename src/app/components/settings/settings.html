@@ -1,0 +1,16 @@
+<div class="setting-box ">
+    @for (setting of settings; track $index) {
+        @if (setting.viewSetting) {
+            <div class= "setting-card">
+                <a [routerLink]="setting.routerLink" class="text-center">
+                    <span class="text-center">
+                        <div class="">
+                            <i [ngClass]="setting.icon" [title]="setting.name"></i>
+                        </div>
+                        <h5>{{setting.name}}</h5>
+                    </span>
+                </a>
+            </div>
+        }
+    }
+</div>

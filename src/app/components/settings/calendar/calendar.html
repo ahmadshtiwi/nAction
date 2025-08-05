@@ -1,0 +1,52 @@
+<form #scheduleForm="ngForm" (ngSubmit)="submitForm()">
+
+    <div class="col-12 col-md-12 text-start bg-primary rounded-1	 text-white p-2">
+        <h5 class="m-0">{{ 'Calendar' }}</h5>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                @for (header of tableHeader; track $index) {
+                <th>{{header}}</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (day of weekSchedule; track $index) {
+            <tr>
+
+
+                <td>{{ day.dayName }}</td>
+
+                <td>
+                    <ng-select [placeholder]="'Select Working Hours'" [(ngModel)]="day.requiredWorkingHours"
+                        [name]="'rid' + $index" [items]="availableHours" bindLabel="label" bindValue="value"
+                        [multiple]="false" [clearable]="true" required [searchable]="true">
+                    </ng-select>
+                </td>
+
+                <td>
+                    <ng-select [placeholder]="'CHOOSE'" [(ngModel)]="day.calendarDescriptionLookupId"
+                        [name]="'id' + $index" [items]="descriptions" bindLabel="description" bindValue="id"
+                        [multiple]="false" [clearable]="true" required [searchable]="true">
+                    </ng-select>
+                </td>
+
+                <td>
+                    <input type="time" class="border text-start text-black p-2 w-100" [name]="'fromTime' + $index" id=""
+                        [(ngModel)]="day.fromTime">
+                </td>
+                <td>
+                    <input type="time" [name]="'toTime' + $index" class="border text-start text-black p-2 w-100" id=""
+                        [(ngModel)]="day.toTime">
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-primary-hover  mt-3">Submit Changes</button>
+    </div>
+</form>

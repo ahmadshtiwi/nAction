@@ -13,26 +13,25 @@ export class PasswordValidationDirective implements OnInit {
   ngOnInit() {
   }
 
-  @HostListener('input', ['$event'])
-  onInput(event: InputEvent) {
-    const input = event.target as HTMLInputElement;
-    const password = input.value;
+@HostListener('input', ['$event'])
+onInput(event: Event): void {
+  const inputElement = event.target as HTMLInputElement;
+  const password = inputElement.value;
 
-    const hasMinLength = password.length >= 8;
-    const hasNumber = /\d/.test(password);
-    const hasCapitalCase = /[A-Z]/.test(password);
-    const hasSmallCase = /[a-z]/.test(password);
-    const hasSpecialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+  const hasMinLength = password.length >= 8;
+  const hasNumber = /\d/.test(password);
+  const hasCapitalCase = /[A-Z]/.test(password);
+  const hasSmallCase = /[a-z]/.test(password);
+  const hasSpecialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
 
-    // Update the validation messages
-    this.updateValidationMessages(
-      hasMinLength,
-      hasNumber,
-      hasCapitalCase,
-      hasSmallCase,
-      hasSpecialCharacters
-    );
-  }
+  this.updateValidationMessages(
+    hasMinLength,
+    hasNumber,
+    hasCapitalCase,
+    hasSmallCase,
+    hasSpecialCharacters
+  );
+}
 
   @HostListener('focus')
   onFocus() {
