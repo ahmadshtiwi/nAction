@@ -1,0 +1,128 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; // Prevent body from scrolling separately
+}
+
+.btn-outline-warning {
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+
+  &:hover {
+    color: #fff !important;
+  }
+}
+
+.text-warning {
+  color: #000000 !important;
+}
+
+.btn-warning {
+  color: #fff !important;
+  border-color: #ff0000 !important;
+  background-color: #ff0000 !important;
+
+  &:hover {
+    color: #fff !important;
+  }
+}
+
+.btn-outline-primary {
+  color: #0F3457 !important;
+  border-color: #0F3457 !important;
+
+  &:hover {
+    color: #fff !important;
+  }
+}
+.bg-primary{
+  background-color: #0F3457 !important;
+  color: white !important;
+}
+
+.custom-offcanvas {
+  width: 35% !important;
+  max-width: 600px;
+  background-color: #0F3457 !important;
+}
+
+@media screen and (max-width: 576px) {
+  .custom-offcanvas {
+    width: 100% !important;
+  }
+}
+
+.border {
+  border-radius: 10px;
+}
+
+.ng-select-container {
+  background-color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: white;
+
+  input {
+    color: white !important;
+  }
+}
+
+.system-button {
+  background: linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(131,58,180,1) 100%);
+  border-radius: 10px;
+  border: none;
+  transition: background-color 0.3s; // Smooth transition for background color and hover effects
+
+  // Hover effect
+  &:hover {
+    background-color: #7CA2B4; // Darker shade on hover
+  }
+
+  // Disabled state
+  &:disabled {
+    background-color: #B0C4D1; // Lighter or different color indicating it's disabled
+    cursor: not-allowed; // Shows a 'not-allowed' cursor when hovered
+  }
+}
+
+
+.toast-success {
+  background-color: #00CFAD !important; // لون الخلفية
+  color: black !important; // لون النص
+  width: 500px !important;
+}
+
+.toast-error {
+  background-color: #dc3545 !important; // لون الخلفية للخطأ
+  color: white !important;
+  width: 500px !important;
+}
+
+.toast-warning {
+  background-color: #ffc107 !important; // لون الخلفية للتحذير
+  color: black !important;
+  width: 500px !important;
+}
+
+.toast-info {
+  background-color: #17a2b8 !important; // لون الخلفية للمعلومات
+  color: white !important;
+   width: 500px !important;
+}
+
+.ng-select {
+  .ng-select-container {
+    .ng-value-container {
+      .ng-input>input {
+        color: #000000 !important;
+      }
+    }
+  }
+}

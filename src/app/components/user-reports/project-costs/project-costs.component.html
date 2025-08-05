@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12">
+    @if (products().length > 0) {
+    <ngb-carousel [interval]="10000" [wrap]="true" [pauseOnHover]="true" [showNavigationArrows]="true"
+      [showNavigationIndicators]="false">
+
+      @for (chunk of productChunks(); track $index) {
+      <ng-template ngbSlide>
+        <div class="carousel-inner-container">
+          <div class="row">
+            @for (product of chunk; track $index) {
+              <div class="col-md-4 d-flex justify-content-center">
+              <a (click)="getProjectCost(product.id); pagination.fromDate = null ; pagination.toDate = null">
+              <div class="product-card my-2">
+                <img [src]="product.imageURL ? product.imageURL : '/assets/images/logo.png'" class="product-image w-50"
+                  [alt]="product.name">
+                <div class="product-info">
+                  <h5>{{ product.name }}</h5>
+                </div>
+              </div>
+            </a>
+            </div>
+            }
+          </div>
+        </div>
+      </ng-template>
+      }
+    </ngb-carousel>
+    }
+  </div>
+
+  @if (pagination.projectId) {
+    <div class="col-12 row my-2">
+      <div class="col-md-4"></div>
+      <div class="col-md-4 col-12 d-flex align-items-center">
+        <label class="text-black required-label me-2" for="fromDate">{{'From Date'}}</label>
+        <input type="date" class="form-control flex-grow-1 w-75" name="fromDate" [(ngModel)]="pagination.fromDate"
+          (ngModelChange)="getProjectCost(pagination.projectId) ; pagination.pageNumber = 1;">
+      </div>
+      <div class="col-md-4 col-12 d-flex align-items-center">
+        <label class="text-black required-label me-2" for="toDate">{{'To Date'}}</label>
+        <input type="date" class="form-control flex-grow-1 w-75" name="toDate" [(ngModel)]="pagination.toDate"
+          (ngModelChange)="getProjectCost(pagination.projectId); pagination.pageNumber = 1 ">
+      </div>
+  
+    </div>
+  }
+
+  @if (projectCostData.length) {
+  <div class="row">
+    <div class="col-3">
+      <div class="card">
+        <div class="card-header text-center bg-primary">
+          <h5>Project Name</h5>
+        </div>
+        <div class="card-header text-center">
+          <h5>{{projectCostData[0].projectName}}</h5>
+        </div>
+        <div class="card-header text-center bg-primary">
+          <h5>Total Cost ($)</h5>
+        </div>
+        <div class="card-header text-center">
+          <h5>{{projectCostSummary.totalCost + '$'}}</h5>
+        </div>
+        <div class="card-header text-center bg-primary">
+          <h5>Total Hours</h5>
+        </div>
+        <div class="card-header text-center">
+          <h5>{{projectCostSummary.totalHours + 'hrs'}}</h5>
+        </div>
+        <div class="card-header text-center bg-primary">
+          <h5>Total Resources</h5>
+        </div>
+        <div class="card-header text-center">
+          <h5>{{projectCostSummary.totalResources}}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <app-table [tableData]="projectCostData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+        [pageSize]="pagination.pageSize" [tableHeaders]="tableHeaders" [removeTableHeader]="true" [removeActions]="true"
+        [displayColumns]="displayColumns" (pageChangeEvent)="nextPage($event)">
+      </app-table>
+    </div>
+  </div>
+  }
+</div>

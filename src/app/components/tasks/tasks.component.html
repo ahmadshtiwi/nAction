@@ -1,0 +1,163 @@
+<app-table [tableData]="tableData" [collectionSize]="pagination.totalCount" [page]="pagination.pageNumber"
+    [pageSize]="pagination.pageSize" [tableHeaderTitle]="tableHeaderTitle" [removeAddButton]="false"
+    [viewUnsubmittedRequestButton]="false" [tableHeaderButton]="'Create new task'" [tableHeaders]="tableHeaders"
+    [displayColumns]="displayColumns" [viewLog]="true" [isViewOnly]="false" (dropdownToggle)="getActions($event)"
+    [actionItems]="actionItems" [viewUnsubmittedRequestButton]="false" [filterableColumn]="true"
+    (filterChanged)="onFilterChange($event)" [columnFilters]="columnFilters" (activateFilteration)="filterData()"
+    [unsubmittedComponentRouting]="'/pages/assignment-managment/unsubmitted-assignment-requests'"
+    (pageChangeEvent)="nextPage($event)" (addButtonEvent)="openModal(content , false , true , false)"
+    (openFilterModalEvent)="openFilter(filter , true , false , false)">
+</app-table>
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-white">Tasks</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid">
+            <form #tasksForm="ngForm" AutoFormError (ngSubmit)="submitRequest(tasksForm)">
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Project'}}</label>
+                    <ng-select [disabled]="isView" name="projectId" [placeholder]="'CHOOSE'"
+                        class="bg-dark-primary border text-primary" [(ngModel)]="task.projectId" [items]="projects"
+                        (ngModelChange)="getUserReports($event)" [bindLabel]="'name'" [bindValue]="'id'"
+                        [multiple]="false">
+                    </ng-select>
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Task Title'}}</label>
+                    <input [disabled]="isView" name="'title'" [(ngModel)]="task.title" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Task Description'}}</label>
+                    <textarea [disabled]="isView" name="description" [(ngModel)]="task.description" required
+                        class="border text-start text-black p-2 w-100" rows="4">
+                    </textarea>
+                </div>
+
+
+                <div class="col-12 w-50">
+                    <label class="text-white required-label my-2" for="duration">{{ 'Duration' }}</label>
+                    <div class="d-flex align-items-center">
+                        <input [disabled]="isView" name="'hours'" appRestrictNonNumeric [(ngModel)]="hours"
+                            placeholder="HH" (ngModelChange)="checkHours($event)" required
+                            class="border text-start text-black p-2 w-100" type="number" [appMaxValue]="9999">
+                        <h2 class="text-white mx-1">:</h2>
+                        <input [disabled]="isView" name="'minutes'" appRestrictNonNumeric [(ngModel)]="minutes"
+                            placeholder="MM" (ngModelChange)="checkMinutes($event)" required
+                            class="border text-start text-black p-2 w-100" type="number" [appMaxValue]="59">
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="startDate">{{'Start Date'}}</label>
+                    <input [disabled]="isView" name="startDate" [(ngModel)]="task.startDate" required
+                        class="border text-start text-black p-2 w-100" type="date" [max]="task.maxDeliveryDate"
+                        (ngModelChange)="checkStartDate()">
+                    <!-- Error MSG -->
+                    <div *ngIf="messagePer" class="text-danger">{{ messagePer }}</div>
+                </div>
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="maxDeliveryDate">{{'Max Deadline'}}</label>
+                    <input [disabled]="isView" name="maxDeliveryDate" [(ngModel)]="task.maxDeliveryDate" required
+                        class="border text-start text-black p-2 w-100" type="date" [min]="task.startDate">
+                </div>
+
+
+                @if(task.projectId){
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Assigned to'}}</label>
+                    <ng-select [disabled]="isView" name="assignedToId" [placeholder]="'CHOOSE'" required
+                        class="bg-dark-primary border text-primary" [(ngModel)]="task.assignedToId" [items]="users"
+                        [bindLabel]="'fullName'" [bindValue]="'id'" [multiple]="false">
+                    </ng-select>
+                </div>
+                }
+
+                <div class="col-12">
+                    <app-attachmnet (batchId)="getBatchId($event)" [hasAttachments]="task.hasAttachments"
+                        [referenceId]="task.id"></app-attachmnet>
+                </div>
+
+                @if(!isView){
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="system-button btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #filter let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-white">Tasks</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid">
+            <form #tasksForm="ngForm" AutoFormError (ngSubmit)="getData() ; offcanvas.dismiss('Cross click')">
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Search value'}}</label>
+                    <input [disabled]="isView" name="'title'" [(ngModel)]="pagination.SearchValue" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="system-button btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'filter'}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #reject let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-white">Reject Task</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid">
+            <form #rejectTaskForm="ngForm" AutoFormError (ngSubmit)="submitReject(rejectTaskForm)">
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Reason'}}</label>
+                    <input [disabled]="isView" name="'reason'" [(ngModel)]="rejectModel.reason" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'New Percentage'}}</label>
+                    <input [disabled]="isView" name="'compleation'" [(ngModel)]="rejectModel.compleation"
+                        class="border text-start text-black p-2 w-100" type="number" (ngModelChange)="checkPer()">
+                    <small style="color: red;">{{messagePer}}</small>
+                </div>
+
+
+
+                @if(!isView){
+                <div class="col-12 d-flex justify-content-center mt-3">
+                    <button class="system-button btn p-2 w-100 text-white" type="submit">
+                        <span class="form-label">{{'Submit Request'}}</span>
+                    </button>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</ng-template>

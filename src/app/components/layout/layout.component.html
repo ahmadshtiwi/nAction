@@ -1,0 +1,115 @@
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div class="sidebar phone-sidebar z-1 vh-100 shadow-lg"
+    [ngClass]="{ 'sidebar-open': isSidebarOpen, 'sidebar-closed': !isSidebarOpen }">
+
+    <!-- Sidebar Header -->
+    <div class="sidebar-header pb-3 p-0 text-center">
+      <a class="btn d-md-none d-block w-25 text-white" (click)="toggleSidebar()">
+        <h2><i class="bi bi-x"></i></h2>
+      </a>
+      <img src="/assets/images/logo.png" alt="Logo" class="img-fluid pt-3 logo w-50">
+      <div class="mt-3 fst-italic fs-4">
+        <span class ="text-black">We are nAction</span>
+      </div>
+    </div>
+
+    <!-- Sidebar Links -->
+    <ul class="list-unstyled p-0 text-center">
+      @for (item of menuItems; track $index) {
+        <li [hidden]="!item.viewSection">
+          <a [routerLink]="item.route" routerLinkActive="active"
+            class="d-flex align-items-center justify-content-center p-3 text-decoration-none">
+            <i class="bi" [ngClass]="item.icon + ' me-2'"></i>
+            <small>{{ item.name }}</small>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+
+  <!-- Main Content -->
+  <div class="container-fluid content p-0">
+    <div class="row">
+      <div class=" col-6 flex-grow-1 p-4 pb-1">
+        <!-- <img src="/assets/images/macquires.png" alt="Logo" class="img-fluid p-2 logo d-none d-md-block"> -->
+        <a class="btn d-md-none d-block w-25 p-0" (click)="toggleSidebar()">
+          <h2><i class="bi bi-list"></i></h2>
+        </a>
+      </div>
+
+      <div ngbDropdown class="col-6 flex-grow-1 p-4 d-flex align-items-center gap-3 justify-content-end">
+        <h3 class="mb-0 fw-bold text-primary d-none d-md-block">Welcome</h3>
+        <h5 class="mb-0 fw-semibold text-warning" ngbDropdownToggle>
+          {{ loginService.getUser().given_name }}
+        </h5>
+        <div ngbDropdownMenu class="bg-white border shadow-sm">
+          <button type="button" ngbDropdownItem (click)="open(passwordTemplate)"
+            class="btn p-2 d-flex justify-content-start text-black align-items-center">
+            <i class="bi bi-key mx-2"></i>
+            Change Password
+          </button>
+          <button type="button" ngbDropdownItem (click)="logout()"
+            class="btn p-2 d-flex justify-content-start text-black align-items-center">
+            <i class="bi bi-door-open mx-2"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="m-0">
+
+    <div class="col-12 p-3 router-outlet">
+      <router-outlet />
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #passwordTemplate let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title text-white">Change Password</h4>
+    <button type="button" class="btn-close text-white" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container-fluid">
+      <form #passwordForm="ngForm" AutoFormError (ngSubmit)="submitRequest(passwordForm)">
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="fromCity">{{'Current Password'}}</label>
+          <input name="'title'" [(ngModel)]="password.currentPassword" required
+            class="border text-start text-black p-2 w-100" type="password">
+        </div>
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="fromCity">{{'Password'}}</label>
+          <input name="'title'" [(ngModel)]="password.newPassword" required
+            class="border text-start text-black p-2 w-100" type="password">
+          @if (showConfirmationError) {
+          <div class="col-12 mt-1 text-danger">
+            <small>Passwords do not match!</small>
+          </div>
+          }
+        </div>
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="fromCity">{{'Confirm Password'}}</label>
+          <input name="'title'" [(ngModel)]="password.confirmPassword" required (ngModelChange)="checkConfirmPassword()"
+            class="border text-start text-black p-2 w-100" type="password">
+          @if (showConfirmationError) {
+          <div class="col-12 mt-1 text-danger">
+            <small>Passwords do not match!</small>
+          </div>
+          }
+        </div>
+
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <button class="system-button btn p-2 w-100 text-white" type="submit">
+            <span class="form-label">{{'Submit Request'}}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

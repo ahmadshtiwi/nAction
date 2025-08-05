@@ -1,0 +1,135 @@
+// Variables
+$primary-color: #0F3457;
+$secondary-color: #ff0000;
+$light-color: #ffffff;
+
+// General Styling
+.table-header {
+  background-color: $primary-color;
+  color: $light-color;
+  border-radius: 5px;
+
+  &-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  &-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+.add-button {
+  background-color: $secondary-color;
+  color: $light-color;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+}
+
+.icon-button {
+  background-color: transparent;
+  border: none;
+  color: $light-color;
+  font-size: 1.2rem;
+
+  &:hover {
+    color: $light-color;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: $primary-color;
+    color: $light-color;
+
+    th {
+      padding: 2px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-bottom: 2px solid $primary-color;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: $primary-color;
+      }
+
+      &:hover {
+        background-color: $primary-color;
+      }
+    }
+
+    td {
+      padding: 2px !important;
+      border-bottom: 1px solid $primary-color;
+      white-space: wrap;
+      overflow-x: auto;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.btn-primary{
+  background-color: #174e81 !important;
+}
+
+.status{
+  border: #174e81 1px solid;
+  border-radius: 10px;
+  color: #174e81;
+}
+
+.icon-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.table-pagination {
+  background-color: $primary-color;
+  padding: 1px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  ::ng-deep{
+    ngb-pagination {
+        .page-item {
+          .page-link {
+            color: $light-color;
+            background-color: #174e81;
+            border: 1px solid $primary-color;
+    
+            &:hover {
+              background-color: $primary-color;
+            }
+          }
+    
+          &.active .page-link {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+            color: $light-color;
+          }
+        }
+      }
+  }
+}
+
+.table-responsive{
+  min-height: 150px;
+}
+
+.table-header-cell{
+  min-width: 130px;
+}

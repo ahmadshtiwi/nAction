@@ -1,0 +1,36 @@
+.week-schedule {
+
+  h4 .input-worklog {
+   width: 5%;
+   border: 1px black solid;
+   border-radius: 10px ;
+   text-align: center;
+   font-weight: 700;
+   padding: 2px;
+  }
+  
+    .table {
+      width: 60%;
+      margin-top: 20px;
+      th {
+        text-align: left;
+        background-color: #0F3457;
+        color: #fff;
+        font-size: 25px;
+      }
+      td {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+    }
+  
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  }
+  

@@ -1,0 +1,61 @@
+
+<form #calendarForm="ngForm" (ngSubmit)="submitForm(calendarForm)" class="d-flex gap-2">
+    <input type="text" class="form-control w-25" name="description" [(ngModel)]="description" placeholder="Description" required>
+    <button class="btn btn-warning" [disabled]="calendarForm.invalid">Add</button>
+</form>
+
+
+
+  
+
+
+<app-table
+[removeAddButton]="true"
+[removePagination]="true"
+[removeTableHeader]="true"
+[displayColumns]="displayColumns"
+[tableHeaders]="tableHeader"
+[tableData]="tableData"
+[actionItems]="actionItems"
+[tableHeaderTitle]="tableHeaderTitle" 
+[removeAddButton]="false" 
+[removeActions]="false" 
+[viewLog]="false" 
+[isViewOnly]="false"
+(dropdownToggle)="getActions($event)"
+[tableWidth]="'w-50'"
+
+
+></app-table>
+
+
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-white">Tasks</h4>
+        <button type="button" class="btn-close text-white" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid">
+            <form #calendarForm="ngForm" AutoFormError (ngSubmit)="submitRequest(calendarForm)">
+
+              
+
+                <div class="col-12">
+                    <label class="text-white required-label my-2" for="fromCity">{{'Description'}}</label>
+                    <input [disabled]="isView" name="'title'" [(ngModel)]="calendarDesc.description" required
+                        class="border text-start text-black p-2 w-100" type="text">
+                </div>
+
+                @if(!isView){
+                    <div class="col-12 d-flex justify-content-center mt-3">
+                        <button class="system-button btn p-2 w-100 text-white" type="submit">
+                            <span class="form-label">{{'Submit Request'}}</span>
+                        </button>
+                    </div>
+                }
+
+            </form>
+        </div>
+    </div>
+</ng-template>

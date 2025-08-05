@@ -1,0 +1,32 @@
+<div class="modal-container">
+  <div class="modal-body">
+    <div class="col-12 fs-4">
+      <a class="btn m-0 p-0" (click)="close(false)"><i class="bi bi-x"></i></a>
+    </div>
+
+    <div class="col-12 text-center p-5">
+      {{message}}
+    </div>
+
+    @if(isDeleteAction){
+    <div class="row">
+      <div class="col-6 d-flex justify-content-center">
+        <button class="btn submit-btn btn-warning" (click)="close(true)">{{"Delete"}}</button>
+      </div>
+      <div class="col-6 d-flex justify-content-center">
+        <button class="btn submit-btn btn-outline-primary" (click)="close(false)">{{"Cancel"}}</button>
+      </div>
+    </div>
+  }
+  @else {
+
+    <div class="row">
+
+      <div class="col-6 d-flex justify-content-center">
+        <button class="btn submit-btn btn-warning" (click)="close(false)">{{"Ok"}}</button>
+      </div>
+
+    </div>
+  }
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<!-- <app-table
+[tableHeaderTitle]="tableHeaderTitle"
+[tableHeaders]="tableHeaders"
+[removePagination]="true"
+[tableData]="hourlyBody"
+[removeAddButton]="false"
+[tableHeaderButton]="'Add Hourly Cost'"
+[removeFilter]="true"
+[actionItems]="actionItems"
+[displayColumns]="displayColumns"
+[isViewOnly]="false"
+(addButtonEvent)="openModal(content , false , true , false)"
+>
+
+</app-table> -->
+
+
+
+<div class="d-flex justify-content-between w-75">
+  <h3>{{userName}}</h3>
+  <button type="button" class="btn-warning btn" (click)="openModal(content,false,true,false)">Add Hourly Cost</button>
+</div>
+  <table class="table">
+      <thead>
+          <tr>
+          @for(header of tableHeaders ;track header)  {
+
+            <th>{{header}}</th>
+          }
+          </tr>
+      </thead>
+      <tbody>
+          @for (row of hourlyBody; track $index) {
+          <tr>
+              
+              <td>{{ row.fromDate }}</td>
+              <td>{{row.toDate}}</td>
+              <td>{{row.hourlyRate}}</td>
+              <td>{{row.notes}}</td>
+              <td>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-primary" (click)="editItem(row)"><i class="bi-pencil"></i></button>
+                    <button type="button" class="btn btn-outline-danger" (click)="deleteItem(row)"><i class="bi-trash"></i></button>
+                  </div>
+              </td>
+          </tr>
+          }
+      </tbody>
+  </table>
+
+
+
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title text-white">Add Hourly Cost</h4>
+    <button type="button" class="btn-close text-white" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container-fluid">
+      <form #hourlycost="ngForm" AutoFormError (ngSubmit)="submitRequest(hourlycost)">
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="fromDate">{{ "From Date" }}</label>
+          <input [disabled]="isView" name="fromDate" [(ngModel)]="hourlyItem.fromDate" required class="border text-start text-black p-2 w-100" type="date" />
+        </div>
+
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="toDate">{{ "To Date" }}</label>
+          <input [disabled]="isView" name="toDate" [(ngModel)]="hourlyItem.toDate" required class="border text-start text-black p-2 w-100" type="date" />
+        </div>
+
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="hourlyRate">{{ "Hourly Rate" }}</label>
+          <input [disabled]="isView" name="hourlyRate" [(ngModel)]="hourlyItem.hourlyRate" required class="border text-start text-black p-2 w-100"   type="number" 
+          step="0.01" 
+          min="0" />
+        </div>
+
+        <div class="col-12">
+          <label class="text-white required-label my-2" for="note">{{ "Note" }}</label>
+          <textarea [disabled]="isView" name="note" [(ngModel)]="hourlyItem.notes" class="border text-start text-black p-2 w-100" rows="4"></textarea>
+        </div>
+
+        @if (!isView) {
+          <div class="col-12 d-flex justify-content-center mt-3">
+            <button class="system-button btn p-2 w-100 text-white" type="submit">
+              <span class="form-label">{{ "Submit Request" }}</span>
+            </button>
+          </div>
+        }
+      </form>
+    </div>
+  </div>
+</ng-template>
+ 

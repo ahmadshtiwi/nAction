@@ -1,0 +1,68 @@
+
+
+    <div class="table-header row p-1 m-0 align-items-center">
+        <!-- Title-->
+        <div class="col-12 col-md-12 mb-3 text-start">
+            <h5 class="table-header-title m-0">{{ tableHeaderTitle }}</h5>
+        </div>
+        
+        <div class="col-md-3 mb-3 col-12 d-flex align-items-center">
+            <label class="text-white required-label me-2" for="fromDate" >{{'From Date'}}</label>
+            <input type="date" class="form-control flex-grow-1 w-75" name="fromDate" [(ngModel)]="topTenReq.fromDate"
+            (ngModelChange)="getTopTenData()"
+            />
+            
+        </div>
+        
+        <div class="col-md-3 mb-3 col-12 d-flex align-items-center">
+            <label class="text-white required-label me-2" for="toDate">{{'To Date'}}</label>
+            <input type="date" class="form-control flex-grow-1 w-75" name="toDate"  [(ngModel)]="topTenReq.toDate"
+            (ngModelChange)="getTopTenData()">
+        </div>    
+        
+        
+        
+    </div>
+    
+
+    <table class="table ">
+        <thead>
+
+            <tr>
+                @for (header of tableHeaders; track header) {
+                    
+                    @if(header =="Resource"){
+                        <th class="text-start table-header-cell" (click)="sortBy(header)"style="cursor: pointer;">
+                            {{header}} 
+                           <span>
+                                {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                            </span>
+                        </th>
+                    }
+                    @else {
+                    <th class="text-center table-header-cell" (click)="sortBy(header)"style="cursor: pointer;">
+                        {{header}} 
+                       <span>
+                            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                        </span>
+                    </th>
+                }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (data of sortedEmployees(); track data) {
+                <tr>
+                    <td>{{data.fullName}}</td>
+                    <td class="text-center">{{data.kpi}}</td>
+                    <td class="text-center">{{data.officialDays}}</td>
+                    <td class="text-center">{{data.officialHours}}</td>
+                    <td class="text-center">{{data.actualHours}}</td>
+                    <td class="text-center">{{data.productivity +'%'}}</td>
+                    <td class="text-center">{{data.efficiency +'%'}}</td>
+                    <td class="text-center">{{data.performanceScore}}</td>
+                    <td class="text-center">{{data.averageDeadlineScore}}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
