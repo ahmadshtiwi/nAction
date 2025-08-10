@@ -1,16 +1,27 @@
-<div class="setting-box ">
-    @for (setting of settings; track $index) {
-        @if (setting.viewSetting) {
-            <div class= "setting-card">
-                <a [routerLink]="setting.routerLink" class="text-center">
-                    <span class="text-center">
-                        <div class="">
-                            <i [ngClass]="setting.icon" [title]="setting.name"></i>
-                        </div>
-                        <h5>{{setting.name}}</h5>
-                    </span>
-                </a>
-            </div>
-        }
+<!-- Settings Header -->
+<div class="mb-4">
+  <h3 class="fw-bold text-dark">System Settings</h3>
+  <p class="text-muted">Manage your application configuration and preferences.</p>
+</div>
+
+<!-- Settings Grid -->
+<div class="settings-container">
+  @for (setting of settings; track $index) {
+    @if (setting.viewSetting) {
+      <div class="setting-card">
+        <a [routerLink]="setting.routerLink" class="setting-link">
+          <div class="setting-icon">
+            <i [ngClass]="setting.icon"></i>
+          </div>
+          <div class="setting-content">
+            <h5 class="setting-title">{{setting.name}}</h5>
+            <p class="setting-description">{{getSettingDescription(setting.name)}}</p>
+          </div>
+          <div class="setting-arrow">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </a>
+      </div>
     }
+  }
 </div>
