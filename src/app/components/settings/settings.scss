@@ -1,28 +1,130 @@
-.setting-box {
-    display: flex;
-    padding: 16px;
-    gap: 16px;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    .setting-card {
-        min-width: 140px;
-        border: 4px var(--bg-third);
-        border-style: solid;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
-
-        &:hover {
-            transform: scale(1.05);
-        }
-    }
-
+.settings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
 }
 
-a {
-    text-decoration: none;
-    display: block;
-    color: var(--bg-third);
-            padding: 10px;
+.setting-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  overflow: hidden;
 
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--bg-third);
+  }
+}
+
+.setting-link {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  min-height: 100px;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.setting-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--bg-third), var(--bg-secoundry));
+  border-radius: 12px;
+  margin-right: 1rem;
+  flex-shrink: 0;
+
+  i {
+    color: white;
+    font-size: 1.5rem;
+  }
+}
+
+.setting-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.setting-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secoundery-text-color);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.setting-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.setting-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-left: 1rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+
+  i {
+    color: var(--bg-third);
+    font-size: 0.8rem;
+  }
+}
+
+.setting-card:hover .setting-arrow {
+  background: var(--bg-third);
+  
+  i {
+    color: white;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .settings-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .setting-link {
+    padding: 1.25rem;
+    min-height: 80px;
+  }
+  
+  .setting-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 0.75rem;
+    
+    i {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .setting-title {
+    font-size: 1rem;
+  }
+  
+  .setting-description {
+    font-size: 0.85rem;
+  }
 }
