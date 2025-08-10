@@ -157,9 +157,12 @@
                         class="border text-start text-black p-2 w-100" type="time" [min]="workLog.fromTime"
                         [max]="workLog.date < today ? workLog.date  : currentTime"
                         (ngModelChange)="validateTime()">
-                    <div *ngIf="timeError" class="text-danger">
+                    @if(timeError){
+
+                        <div  class="text-danger">
                         To time must be greater than From time and cannot exceed the current time.
                     </div>
+                    }
                 </div>
 
 
