@@ -5,6 +5,8 @@ export enum StatusEnum {
     ApprovedCompleted = 4,
     Canceled = 5,
     Reject = 6,
+    DeadLine=7,
+    Duration=8
 }
 
 export enum AttachmentType {

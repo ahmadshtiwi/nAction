@@ -33,11 +33,15 @@
                     </div>
                     <div class="row">
                         <p class="card-text col-7"><strong>Deadline: </strong> </p>
-                        <p class="col-5">{{ WorkLogTask.maxDeliveryDate | date:'dd/MM/yyyy' }}</p>
+                        <p class="col-3">{{ WorkLogTask.maxDeliveryDate | date:'dd/MM/yyyy' }}</p>
+                        @if(WorkLogTask.flexibleDeadLine){
+                          <p class="col-2"><app-badges [statusName]="'DeadLine'"></app-badges></p>
+                      }
                     </div>
                     <div class="row">
                         <p class="card-text col-7"><strong>Actual Completion: </strong></p>
                         <p class="col-5"> {{ WorkLogTask.actualCompletion | date:'dd/MM/yyyy' }}</p>
+                      
                     </div>
                 </div>
 
@@ -50,7 +54,10 @@
 
                     <div class="row">
                         <p class="card-text col-7"><strong>Actual Duration: </strong></p>
-                        <p class="col-5">{{ WorkLogTask.actualDurationFormatted }}</p>
+                        <p class="col-3">{{ WorkLogTask.actualDurationFormatted }}</p>
+                        @if(WorkLogTask.flexibleDuration){
+                            <p class="col-2"><app-badges [statusName]="'Duration'"></app-badges></p>
+                        }
                     </div>
 
                     <div class="row">

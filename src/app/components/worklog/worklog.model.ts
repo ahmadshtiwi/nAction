@@ -25,6 +25,8 @@ export class WorkLogTask {
   createdOn:string;
   workLogs: WorkLogsItems;
   hasAttachments: boolean;
+  flexibleDeadLine:boolean;
+  flexibleDuration:boolean;
 }
 
 export class WorkLog {

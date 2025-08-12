@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AccessToken, Password } from '../../auth/login/login.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -22,13 +23,20 @@ export class Header implements OnInit {
   showCurrentPassword=false; 
   showNewPassword=false; 
   showReNewPassword=false; 
-
-  constructor(private loginService :LoginService,private location : Location,private router: Router,private offcanvasService: NgbOffcanvas){}
+  imageProfilePath:string;
+  constructor(private loginService :LoginService,private headerService:HeaderService,private location : Location,private router: Router,private offcanvasService: NgbOffcanvas){}
 
   
   ngOnInit(): void {
   
     this.username=this.loginService.getUser().given_name;
+    
+    this.headerService.getImageProfile().subscribe(res=>{ 
+      if(res)
+      { 
+        this.imageProfilePath=res["imageUrl"];
+      }
+    })
   }
 
 
